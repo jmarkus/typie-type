@@ -78,7 +78,7 @@ public class TTGame {
 	}
 	
 	public double getLPM() {
-		return correctLetters / (getEllapsedTimeMillis() / 6000.0);
+		return correctLetters / (getEllapsedTimeMillis() / 60000.0);
 	}
 	
 
