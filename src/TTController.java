@@ -90,11 +90,11 @@ public class TTController {
 				gamePanel.setCurrentWord(game.currentWord, game.currentIndex);
 				
 				if (prevWord != game.currentWord) {
-					playSound("bin/ding.wav");
+					playSound("res/sounds/ding.wav");
 				}
 				
 			} else {
-				playSound("bin/incorrect.aiff");
+				playSound("res/sounds/incorrect.aiff");
 			}
 			
 			System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()) + " code: " + e.getKeyCode());
