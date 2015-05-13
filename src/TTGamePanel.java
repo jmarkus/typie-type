@@ -1,4 +1,5 @@
 import javax.swing.*;
+
 import java.awt.*;
 
 /**
@@ -21,7 +22,7 @@ public class TTGamePanel extends JPanel {
 	String currentWord;
 	
 	public TTGamePanel() {
-		
+		setBackground(Color.WHITE);
 	}
 	
 	public void setupGamePanel() {
@@ -29,7 +30,6 @@ public class TTGamePanel extends JPanel {
 		setLayout(null);
 		
 		Dimension panelSize = getParent().getSize();
-		System.out.println("panelSize: " + panelSize);
 		Dimension size;
 		
 		currentWordLabel = new JLabel("placeholder");

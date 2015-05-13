@@ -10,8 +10,8 @@ public class TTMain {
 			
 			@Override
 			public void run() {
+				@SuppressWarnings("unused")
 				TTController controller = new TTController();
-				controller.mainFrame.setVisible(true);
 			}
 		});
 	}

@@ -1,4 +1,5 @@
-import java.awt.GridBagLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,24 +13,32 @@ public class TTStartPanel extends JPanel {
 	
 	
 	public TTStartPanel() {
+		setBackground(Color.WHITE);
+	}
+	
+	public void setupStartPanel() {
 		
-		setLayout(new GridBagLayout());
+		setLayout(null);
+		
+		Dimension panelSize = getParent().getSize();
+		Dimension size;
 		
 		JLabel titleLabel = new JLabel("TypieType¡");
 		titleLabel.setFont(new java.awt.Font("Impact", 0, 90));
-		//titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+		size  = titleLabel.getPreferredSize();
+		titleLabel.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 - 100, size.width, size.height);
 		add(titleLabel);
 		
 		JButton startButton = new JButton("Starta");
-		//startButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         startButton.addActionListener(new ActionListener() {
         	@Override
             public void actionPerformed(ActionEvent event) {
                 controller.startGame(1);
             }
         });
+        size  = startButton.getPreferredSize();
+        startButton.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2, size.width, size.height);
         add(startButton);
-		
 	}
 
 }

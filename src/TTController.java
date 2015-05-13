@@ -1,4 +1,5 @@
 
+import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -32,6 +33,7 @@ public class TTController {
 	private void setupGUI() {
 		mainFrame = new JFrame();
 		mainFrame.setTitle("TypieType¡");
+		mainFrame.setBackground(Color.BLACK);
 		mainFrame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		mainFrame.setLocationRelativeTo(null);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -45,6 +47,10 @@ public class TTController {
 		startPanel = new TTStartPanel();
 		startPanel.controller = this;
 		mainFrame.add(startPanel);
+		
+		mainFrame.setVisible(true);
+		startPanel.setupStartPanel();
+		
 		
 		
 	}
@@ -63,7 +69,22 @@ public class TTController {
 		game = new TTGame(level);
 		game.startGame();
 		gamePanel.setCurrentWord(game.currentWord, game.currentIndex);
-		(new TTLPMUpdateThread()).start();
+		
+		
+		// update LPM label continuously
+		(new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while (true) {
+		    		gamePanel.setCurrentLPMLabel(game.getLPM());
+		    		try {
+						Thread.sleep(50);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+		    	}
+			}
+		})).start();
 	}
 	
 	private class MyKeyListener extends KeyAdapter {
@@ -100,7 +121,7 @@ public class TTController {
 				playSound("res/sounds/incorrect.aiff");
 			}
 			
-			System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()) + " code: " + e.getKeyCode());
+			//System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()) + " code: " + e.getKeyCode());
 		}
 	}
 	
@@ -117,23 +138,6 @@ public class TTController {
 	     } catch (LineUnavailableException e) {
 	         e.printStackTrace();
 	     }
-	}
-	
-	private class TTLPMUpdateThread extends Thread {
-
-	    public void run() {
-	    	while (true) {
-	    		gamePanel.setCurrentLPMLabel(game.getLPM());
-	    		
-	    		try {
-					Thread.sleep(50);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-	    	}
-	        
-	    }
-
 	}
 
 }

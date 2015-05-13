@@ -33,7 +33,7 @@ public class TTGame {
 		    String line;
 		    while ((line = br.readLine()) != null) {
 		       line = line.toUpperCase();
-		       System.out.println("Read in word: " + line);
+		       //System.out.println("Read in word: " + line);
 		       words.add(line);
 		    }
 		} catch (FileNotFoundException e) {
@@ -44,7 +44,10 @@ public class TTGame {
 	}
 	
 	private void changeCurrentWord() {
-		currentWord = words.get(rand.nextInt(words.size()));
+		String oldWord = currentWord;
+		while (oldWord == currentWord) {
+			currentWord = words.get(rand.nextInt(words.size()));
+		}
 		currentIndex = 0;
 		System.out.println("New word: " + currentWord);
 	}
@@ -67,7 +70,7 @@ public class TTGame {
 		correctLetters = 0;
 		changeCurrentWord();
 		startTime = System.currentTimeMillis();
-		System.out.println("Start time: " + startTime);
+		//System.out.println("Start time: " + startTime);
 	}
 	
 	public long getEllapsedTimeMillis() {
