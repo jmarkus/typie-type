@@ -50,7 +50,7 @@ public class TTController {
 	}
 	
 	
-	public void startGame(int difficulty) {
+	public void startGame(int level) {
 		System.out.println("Startar...");
 		startPanel.setVisible(false);
 		
@@ -59,7 +59,8 @@ public class TTController {
 		gamePanel.controller = this;
 		mainFrame.add(gamePanel);
 		
-		game = new TTGame(difficulty);
+		game = new TTGame(level);
+		game.startGame();
 		gamePanel.setCurrentWord(game.currentWord, game.currentIndex);
 	}
 	

@@ -1,3 +1,8 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 
@@ -5,39 +10,64 @@ public class TTGame {
 	
 	TTController controller;
 	
-	String[] words = {"HARNESK","MÅNNE", "VARMKORV", "ÖVERDOS", "FÖDELSEDAG", "BINDEMEDEL", "APOSLAGÄRNINGARNA", "VARNINGSSIGNAL", "MATLAGNING", "KRETS", "DALGÅNG", 
-			"HUVUDSTYRKA", "LUTHERHJÄLPEN", "LÄCKA", "ARBETSVILLKOR", "ARRANGEMANG", "KAMMARKÖR", "LESBISK", "VIDEOBANDSPELARE", "OSÖKT", "ANNALKANDE", "CESIUM", "HÖGERBACK",
-			"NEUTRAL", "PEDAL", "KYRKOHERDE", "LITOGRAFI", "HEDERSLEDAMOT", "BARNOMSORG", "AVLASTA", "AVSTAMP", "FÖRSÖKSVERKSAMHET", "SKÖRD", "ADDITIV", "REDOVISNING"};
+	ArrayList<String> words;
 	
 	Random rand = new Random();
-	int difficulty;
+	int level;
+	long startTime;
+	
 	
 	public String currentWord;
 	public int currentIndex;
 	
-	public TTGame(int difficulty) {
-		this.difficulty = difficulty;
-		changeCurrentWord();
+	
+	public TTGame(int level) {
+		words = new ArrayList<String>(100);
+		readInLevelFile(level);
+	}
+	
+	private void readInLevelFile(int level) {
+		
+		try (BufferedReader br = new BufferedReader(new FileReader(String.format("res/levels/level%d.txt", level)))) {
+		    String line;
+		    while ((line = br.readLine()) != null) {
+		       line = line.toUpperCase();
+		       System.out.println("Read in word: " + line);
+		       words.add(line);
+		    }
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void changeCurrentWord() {
-		currentWord = words[rand.nextInt(words.length)];
+		currentWord = words.get(rand.nextInt(words.size()));
 		currentIndex = 0;
 		System.out.println("New word: " + currentWord);
 	}
 	
 	public boolean matchLetter(char letter) {
-		if (currentWord.charAt(currentIndex) == letter) {
+		boolean match = currentWord.charAt(currentIndex) == letter;
+		if (match) {
 			currentIndex++;
-			
 			if (currentIndex == currentWord.length()) {
-				
 				changeCurrentWord();
 			}
-			
-			return true;
 		}
-		return false;
+		
+		return match;
+	}
+	
+	public void startGame() {
+		currentWord = "";
+		changeCurrentWord();
+		startTime = System.currentTimeMillis();
+	}
+	
+	public long getEllapsedTimeMillis() {
+		return System.currentTimeMillis() - startTime;
 	}
 	
 
