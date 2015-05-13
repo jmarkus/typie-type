@@ -15,6 +15,7 @@ public class TTGame {
 	ArrayList<String> words;
 	Random rand = new Random();
 	long startTime;
+	int gameTime;
 	int correctLetters;
 	Thread gameOverThread;
 	
@@ -26,6 +27,7 @@ public class TTGame {
 	
 	
 	public TTGame(int level) {
+		running = false;
 		words = new ArrayList<String>(100);
 		readInLevelFile(level);
 	}
@@ -74,6 +76,7 @@ public class TTGame {
 		correctLetters = 0;
 		changeCurrentWord();
 		running = true;
+		gameTime = time * 1000;
 		startTime = System.currentTimeMillis();
 		
 		// end game after 1 minute
@@ -81,7 +84,7 @@ public class TTGame {
 		@Override
 		public void run() {
 			try {
-				Thread.sleep(time * 1000);
+				Thread.sleep(gameTime);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -110,6 +113,10 @@ public class TTGame {
 	
 	public double getLPM() {
 		return correctLetters / (getEllapsedTimeMillis() / 60000.0);
+	}
+	
+	public long getTimeLeftMillis() {
+		return gameTime - getEllapsedTimeMillis();
 	}
 	
 

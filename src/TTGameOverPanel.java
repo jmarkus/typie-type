@@ -39,6 +39,12 @@ public class TTGameOverPanel extends JPanel {
 		gameOverLabel.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 - 100, size.width, size.height);
 		add(gameOverLabel);
 		
+		scoreLabel = new JLabel("Du fick poäng");
+		scoreLabel.setFont(new java.awt.Font("Impact", 0, 60));
+		size  = scoreLabel.getPreferredSize();
+		scoreLabel.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2, size.width, size.height);
+		add(scoreLabel);
+		
 		JButton toStartButton = new JButton("OK");
 		toStartButton.addActionListener(new ActionListener() {
         	@Override
@@ -52,7 +58,7 @@ public class TTGameOverPanel extends JPanel {
 	}
 	
 	public void setScoreLabel(double score) {
-		scoreLabel = new JLabel(String.format("Du fick %.1f poäng", score));
+		scoreLabel.setText(String.format("Du fick %.1f poäng", score));
 		scoreLabel.setFont(new java.awt.Font("Impact", 0, 60));
 		Dimension size  = scoreLabel.getPreferredSize();
 		Dimension panelSize = getParent().getSize();

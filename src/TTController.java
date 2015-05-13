@@ -1,6 +1,5 @@
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -52,7 +51,6 @@ public class TTController {
 	}
 	
 	public void toStart() {
-		
 		if (gamePanel != null) {
 			gamePanel.setVisible(false);
 		}
@@ -68,12 +66,6 @@ public class TTController {
 			startPanel.setup();
 		} else {
 			startPanel.setVisible(true);
-		}
-		
-		
-		System.out.println(mainFrame.getContentPane().getComponentCount());
-		for (Component c : mainFrame.getContentPane().getComponents()) {
-			System.out.println(c);
 		}
 	}
 	
@@ -92,8 +84,8 @@ public class TTController {
 		
 		game = new TTGame(level);
 		game.controller = this;
-		game.startGame(2);
-		gamePanel.setCurrentWord(game.currentWord, game.currentIndex);
+		game.startGame(30);
+		gamePanel.setCurrentWordLabel(game.currentWord, game.currentIndex);
 		gamePanel.updateCurrentWordLabel();
 		
 		
@@ -103,6 +95,7 @@ public class TTController {
 			public void run() {
 				while (game.running) {
 		    		gamePanel.setCurrentLPMLabel(game.getLPM());
+		    		gamePanel.setTimeLeftLabel((int)game.getTimeLeftMillis() / 1000 + 1);
 		    		try {
 						Thread.sleep(50);
 					} catch (InterruptedException e) {
@@ -133,7 +126,7 @@ public class TTController {
 	
 	public void wordChanged() {
 		playSound("res/sounds/ding.wav");
-		gamePanel.setCurrentWord(game.currentWord, game.currentIndex);
+		gamePanel.setCurrentWordLabel(game.currentWord, game.currentIndex);
 		gamePanel.updateCurrentWordLabel();
 	}
 	
@@ -158,13 +151,14 @@ public class TTController {
 				break;
 			}
 			
-			if (game.running) {
-				
-				if (game.matchLetter(letterPressed)) {
-					gamePanel.setCurrentWord(game.currentWord, game.currentIndex);
-					
-				} else {
-					playSound("res/sounds/incorrect.aiff");
+			if (game != null) {
+				if (game.running) {
+					if (game.matchLetter(letterPressed)) {
+						gamePanel.setCurrentWordLabel(game.currentWord, game.currentIndex);
+						
+					} else {
+						playSound("res/sounds/incorrect.aiff");
+					}
 				}
 			}
 			
