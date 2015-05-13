@@ -63,6 +63,7 @@ public class TTController {
 		game = new TTGame(level);
 		game.startGame();
 		gamePanel.setCurrentWord(game.currentWord, game.currentIndex);
+		(new TTLPMUpdateThread()).start();
 	}
 	
 	private class MyKeyListener extends KeyAdapter {
@@ -100,9 +101,6 @@ public class TTController {
 			}
 			
 			System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()) + " code: " + e.getKeyCode());
-			
-			
-			gamePanel.setCurrentLPMLabel(game.getLPM()); // temp, kommer uppdateras utan att en knapp tryckts senare
 		}
 	}
 	
@@ -119,6 +117,23 @@ public class TTController {
 	     } catch (LineUnavailableException e) {
 	         e.printStackTrace();
 	     }
+	}
+	
+	private class TTLPMUpdateThread extends Thread {
+
+	    public void run() {
+	    	while (true) {
+	    		gamePanel.setCurrentLPMLabel(game.getLPM());
+	    		
+	    		try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+	    	}
+	        
+	    }
+
 	}
 
 }

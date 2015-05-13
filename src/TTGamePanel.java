@@ -65,7 +65,7 @@ public class TTGamePanel extends JPanel {
 	}
 	
 	public void setCurrentLPMLabel(double lpm) {
-		currentLPMLabel.setText(String.format("%f rätta bokstäver per minut", lpm));
+		currentLPMLabel.setText(String.format("%.1f rätta bokstäver per minut", lpm));
 		Dimension size  = currentLPMLabel.getPreferredSize();
 		currentLPMLabel.setBounds(10, 10, size.width, size.height);
 	}
