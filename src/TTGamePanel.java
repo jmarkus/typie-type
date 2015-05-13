@@ -27,7 +27,7 @@ public class TTGamePanel extends JPanel {
 		setBackground(Color.WHITE);
 	}
 	
-	public void setupGamePanel() {
+	public void setup() {
 		
 		setLayout(null);
 		
@@ -48,8 +48,6 @@ public class TTGamePanel extends JPanel {
 	}
 	
 	public void setCurrentWord(String word, int currentIndex) {
-		
-		String oldWord = currentWord;
 		currentWord = word;
 		
 		if (currentIndex == 0) {
@@ -58,25 +56,22 @@ public class TTGamePanel extends JPanel {
 			currentWordLabel.setText("<html><font color=green>" + currentWord.substring(0, currentIndex) + "</font><font color=black>" + currentWord.substring(currentIndex) + "</font></html>");
 		}
 		
-		if (oldWord != currentWord) {
-			
-			currentWordLabel.setFont(new java.awt.Font("Arial", 0, DEFAULT_WORDLABEL_FONT_SIZE));
-			Dimension size  = currentWordLabel.getPreferredSize();
-			Dimension panelSize = getParent().getSize();
-			
-			int fontSize = DEFAULT_WORDLABEL_FONT_SIZE;
-			while (size.width > 0.9 * panelSize.width) {
-				fontSize -= 2;
-				currentWordLabel.setFont(new java.awt.Font("Arial", 0, fontSize));
-				size  = currentWordLabel.getPreferredSize();
-				System.out.println("adjusting font, now: " + fontSize);
-			}
-			
-			currentWordLabel.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 - 100, size.width, size.height);
-			
-			
+	}
+	
+	public void updateCurrentWordLabel() {
+		currentWordLabel.setFont(new java.awt.Font("Arial", 0, DEFAULT_WORDLABEL_FONT_SIZE));
+		Dimension size  = currentWordLabel.getPreferredSize();
+		Dimension panelSize = getParent().getSize();
+		
+		int fontSize = DEFAULT_WORDLABEL_FONT_SIZE;
+		while (size.width > 0.9 * panelSize.width) {
+			fontSize -= 2;
+			currentWordLabel.setFont(new java.awt.Font("Arial", 0, fontSize));
+			size  = currentWordLabel.getPreferredSize();
+			System.out.println("adjusting font, now: " + fontSize);
 		}
 		
+		currentWordLabel.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 - 100, size.width, size.height);
 	}
 	
 	public void setCurrentLPMLabel(double lpm) {

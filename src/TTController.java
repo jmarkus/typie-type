@@ -1,5 +1,6 @@
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -22,7 +23,10 @@ public class TTController {
 	
 	TTStartPanel startPanel;
 	TTGamePanel gamePanel;
+	TTGameOverPanel gameOverPanel;
 	TTGame game;
+	
+	Thread LPMThread;
 	
 	
 	
@@ -42,40 +46,62 @@ public class TTController {
 		mainFrame.setFocusable(true);
 		mainFrame.addKeyListener(new MyKeyListener());
 		mainFrame.requestFocusInWindow();
-		
-		
-		startPanel = new TTStartPanel();
-		startPanel.controller = this;
-		mainFrame.add(startPanel);
-		
 		mainFrame.setVisible(true);
-		startPanel.setupStartPanel();
+		
+		toStart();
+	}
+	
+	public void toStart() {
+		
+		if (gamePanel != null) {
+			gamePanel.setVisible(false);
+		}
+		
+		if (gameOverPanel != null) {
+			gameOverPanel.setVisible(false);
+		}
+		
+		if (startPanel == null) {
+			startPanel = new TTStartPanel();
+			startPanel.controller = this;
+			mainFrame.add(startPanel);
+			startPanel.setup();
+		} else {
+			startPanel.setVisible(true);
+		}
 		
 		
-		
+		System.out.println(mainFrame.getContentPane().getComponentCount());
+		for (Component c : mainFrame.getContentPane().getComponents()) {
+			System.out.println(c);
+		}
 	}
 	
 	
 	public void startGame(int level) {
-		System.out.println("Startar...");
 		startPanel.setVisible(false);
 		
-		
-		gamePanel = new TTGamePanel();
-		//gamePanel.controller = this;
-		mainFrame.add(gamePanel);
-		gamePanel.setupGamePanel();
+		if (gamePanel == null) {
+			gamePanel = new TTGamePanel();
+			gamePanel.controller = this;
+			mainFrame.add(gamePanel);
+			gamePanel.setup();
+		} else {
+			gamePanel.setVisible(true);
+		}
 		
 		game = new TTGame(level);
-		game.startGame();
+		game.controller = this;
+		game.startGame(2);
 		gamePanel.setCurrentWord(game.currentWord, game.currentIndex);
+		gamePanel.updateCurrentWordLabel();
 		
 		
 		// update LPM label continuously
-		(new Thread(new Runnable() {
+		LPMThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				while (true) {
+				while (game.running) {
 		    		gamePanel.setCurrentLPMLabel(game.getLPM());
 		    		try {
 						Thread.sleep(50);
@@ -83,8 +109,32 @@ public class TTController {
 						e.printStackTrace();
 					}
 		    	}
+				Thread.currentThread().interrupt();
 			}
-		})).start();
+		});
+		LPMThread.start();
+	}
+	
+	public void endGame() {
+		System.out.println("Game Over");
+		gamePanel.setVisible(false);
+		
+		if (gameOverPanel == null) {
+			gameOverPanel = new TTGameOverPanel();
+			gameOverPanel.controller = this;
+			mainFrame.add(gameOverPanel);
+			gameOverPanel.setup();
+		} else {
+			gameOverPanel.setVisible(true);
+		}
+		
+		gameOverPanel.setScoreLabel(game.getLPM());
+	}
+	
+	public void wordChanged() {
+		playSound("res/sounds/ding.wav");
+		gamePanel.setCurrentWord(game.currentWord, game.currentIndex);
+		gamePanel.updateCurrentWordLabel();
 	}
 	
 	private class MyKeyListener extends KeyAdapter {
@@ -108,17 +158,14 @@ public class TTController {
 				break;
 			}
 			
-			String prevWord = game.currentWord;
-			
-			if (game.matchLetter(letterPressed)) {
-				gamePanel.setCurrentWord(game.currentWord, game.currentIndex);
+			if (game.running) {
 				
-				if (prevWord != game.currentWord) {
-					playSound("res/sounds/ding.wav");
+				if (game.matchLetter(letterPressed)) {
+					gamePanel.setCurrentWord(game.currentWord, game.currentIndex);
+					
+				} else {
+					playSound("res/sounds/incorrect.aiff");
 				}
-				
-			} else {
-				playSound("res/sounds/incorrect.aiff");
 			}
 			
 			//System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()) + " code: " + e.getKeyCode());

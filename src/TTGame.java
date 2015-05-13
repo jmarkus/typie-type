@@ -1,3 +1,4 @@
+import java.awt.EventQueue;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -8,18 +9,20 @@ import java.util.Random;
 
 public class TTGame {
 	
-	TTController controller;
+	
+	
 	
 	ArrayList<String> words;
-	
 	Random rand = new Random();
-	int level;
 	long startTime;
 	int correctLetters;
+	Thread gameOverThread;
 	
-	
+	public TTController controller;
 	public String currentWord;
 	public int currentIndex;
+	public int level;
+	public boolean running;
 	
 	
 	public TTGame(int level) {
@@ -59,18 +62,46 @@ public class TTGame {
 			correctLetters++;
 			if (currentIndex == currentWord.length()) {
 				changeCurrentWord();
+				controller.wordChanged();
 			}
 		}
 		
 		return match;
 	}
 	
-	public void startGame() {
+	public void startGame(int time) {
 		currentWord = "";
 		correctLetters = 0;
 		changeCurrentWord();
+		running = true;
 		startTime = System.currentTimeMillis();
-		//System.out.println("Start time: " + startTime);
+		
+		// end game after 1 minute
+		gameOverThread = new Thread(new Runnable() {
+		@Override
+		public void run() {
+			try {
+				Thread.sleep(time * 1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			// Continue on main thread
+			EventQueue.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					endGame();
+				}
+			});
+		}
+		});
+		gameOverThread.start();
+	}
+	
+	public void endGame() {
+		running = false;
+		gameOverThread.interrupt();
+		controller.endGame();
 	}
 	
 	public long getEllapsedTimeMillis() {

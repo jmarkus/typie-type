@@ -16,7 +16,7 @@ public class TTStartPanel extends JPanel {
 		setBackground(Color.WHITE);
 	}
 	
-	public void setupStartPanel() {
+	public void setup() {
 		
 		setLayout(null);
 		
