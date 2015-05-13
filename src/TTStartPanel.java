@@ -29,16 +29,41 @@ public class TTStartPanel extends JPanel {
 		titleLabel.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 - 100, size.width, size.height);
 		add(titleLabel);
 		
-		JButton startButton = new JButton("Starta");
-        startButton.addActionListener(new ActionListener() {
+		
+		// Buttons
+		
+		JButton easyButton = new JButton("Starta lätt");
+		easyButton.addActionListener(new ActionListener() {
+        	@Override
+            public void actionPerformed(ActionEvent event) {
+                controller.startGame(0);
+            }
+        });
+        size  = easyButton.getPreferredSize();
+        easyButton.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2, size.width, size.height);
+        add(easyButton);
+        
+        JButton mediumButton = new JButton("Starta medelsvår");
+        mediumButton.addActionListener(new ActionListener() {
         	@Override
             public void actionPerformed(ActionEvent event) {
                 controller.startGame(1);
             }
         });
-        size  = startButton.getPreferredSize();
-        startButton.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2, size.width, size.height);
-        add(startButton);
+        size  = mediumButton.getPreferredSize();
+        mediumButton.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 + 30, size.width, size.height);
+        add(mediumButton);
+        
+        JButton hardButton = new JButton("Starta svår");
+        hardButton.addActionListener(new ActionListener() {
+        	@Override
+            public void actionPerformed(ActionEvent event) {
+                controller.startGame(2);
+            }
+        });
+        size  = hardButton.getPreferredSize();
+        hardButton.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 + 60, size.width, size.height);
+        add(hardButton);
 	}
 
 }

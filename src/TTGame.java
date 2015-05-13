@@ -49,7 +49,7 @@ public class TTGame {
 			currentWord = words.get(rand.nextInt(words.size()));
 		}
 		currentIndex = 0;
-		System.out.println("New word: " + currentWord);
+		//System.out.println("New word: " + currentWord);
 	}
 	
 	public boolean matchLetter(char letter) {
