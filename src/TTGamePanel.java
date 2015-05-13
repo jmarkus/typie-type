@@ -16,6 +16,8 @@ public class TTGamePanel extends JPanel {
 	
 	public TTController controller;
 	
+	private static final int DEFAULT_WORDLABEL_FONT_SIZE = 80;
+	
 	JLabel currentWordLabel;
 	JLabel currentLPMLabel;
 	
@@ -33,7 +35,7 @@ public class TTGamePanel extends JPanel {
 		Dimension size;
 		
 		currentWordLabel = new JLabel("placeholder");
-		currentWordLabel.setFont(new java.awt.Font("Arial", 0, 80));
+		currentWordLabel.setFont(new java.awt.Font("Arial", 0, DEFAULT_WORDLABEL_FONT_SIZE));
 		size  = currentWordLabel.getPreferredSize();
 		currentWordLabel.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 - 100, size.width, size.height);
 		add(currentWordLabel);
@@ -57,9 +59,22 @@ public class TTGamePanel extends JPanel {
 		}
 		
 		if (oldWord != currentWord) {
-			Dimension panelSize = getParent().getSize();
+			
+			currentWordLabel.setFont(new java.awt.Font("Arial", 0, DEFAULT_WORDLABEL_FONT_SIZE));
 			Dimension size  = currentWordLabel.getPreferredSize();
+			Dimension panelSize = getParent().getSize();
+			
+			int fontSize = DEFAULT_WORDLABEL_FONT_SIZE;
+			while (size.width > 0.9 * panelSize.width) {
+				fontSize -= 2;
+				currentWordLabel.setFont(new java.awt.Font("Arial", 0, fontSize));
+				size  = currentWordLabel.getPreferredSize();
+				System.out.println("adjusting font, now: " + fontSize);
+			}
+			
 			currentWordLabel.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 - 100, size.width, size.height);
+			
+			
 		}
 		
 	}

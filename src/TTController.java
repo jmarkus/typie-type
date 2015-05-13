@@ -14,7 +14,7 @@ import javax.swing.*;
 
 public class TTController {
 	
-	static final int WINDOW_WIDTH = 1000;
+	static final int WINDOW_WIDTH = 1200;
 	static final int WINDOW_HEIGHT = 800;
 	
 	
