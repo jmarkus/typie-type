@@ -15,6 +15,7 @@ public class TTGame {
 	Random rand = new Random();
 	int level;
 	long startTime;
+	int correctLetters;
 	
 	
 	public String currentWord;
@@ -52,6 +53,7 @@ public class TTGame {
 		boolean match = currentWord.charAt(currentIndex) == letter;
 		if (match) {
 			currentIndex++;
+			correctLetters++;
 			if (currentIndex == currentWord.length()) {
 				changeCurrentWord();
 			}
@@ -62,12 +64,18 @@ public class TTGame {
 	
 	public void startGame() {
 		currentWord = "";
+		correctLetters = 0;
 		changeCurrentWord();
 		startTime = System.currentTimeMillis();
+		System.out.println("Start time: " + startTime);
 	}
 	
 	public long getEllapsedTimeMillis() {
 		return System.currentTimeMillis() - startTime;
+	}
+	
+	public double getLPM() {
+		return correctLetters / (getEllapsedTimeMillis() / 6000.0);
 	}
 	
 

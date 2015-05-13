@@ -56,8 +56,9 @@ public class TTController {
 		
 		
 		gamePanel = new TTGamePanel();
-		gamePanel.controller = this;
+		//gamePanel.controller = this;
 		mainFrame.add(gamePanel);
+		gamePanel.setupGamePanel();
 		
 		game = new TTGame(level);
 		game.startGame();
@@ -99,6 +100,9 @@ public class TTController {
 			}
 			
 			System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()) + " code: " + e.getKeyCode());
+			
+			
+			gamePanel.setCurrentLPMLabel(game.getLPM()); // temp, kommer uppdateras utan att en knapp tryckts senare
 		}
 	}
 	
