@@ -79,15 +79,20 @@ public class TTGamePanel extends JPanel {
 	public void setCurrentTypedWordLabel(String typedWord, int currentIndex, int correctIndex) {
 		String newLabelString = "";
 		
+		System.out.println(typedWord + " " + currentIndex + " " + correctIndex);
+		
 		if (currentIndex == 0) {
-			newLabelString = "<html></font><font color=white>" + currentWord + "</font></html>";
+			newLabelString = "<html>_<span color=white>" + currentWord.substring(1) + "</span></html>";
 		} else if (currentIndex == correctIndex) {
 			newLabelString = "<html><span style=\"background-color:green\">" + currentWord.substring(0, correctIndex) +
-					"</span><span color=white>" + currentWord.substring(correctIndex) + "</span></html>";
+					"</span>_<span color=white>" + currentWord.substring(correctIndex + 1) + "</span></html>";
 		} else if (currentIndex > correctIndex) {
 			newLabelString = "<html><span style=\"background-color:green\">" + typedWord.substring(0, correctIndex) + 
 					"</span><span style=\"background-color:red\">" + typedWord.substring(correctIndex, currentIndex) + 
-					"</span><span color=white>" + typedWord.substring(currentIndex) + "</span></html>";
+					"</span>_<span color=white>" + typedWord.substring(currentIndex - 1, typedWord.length() - 1) + "</span></html>";
+			if (currentIndex == currentWord.length()) {
+				newLabelString = newLabelString.replaceAll("_", "");
+			}
 		}
 		newLabelString = newLabelString.replaceAll(" ", "&nbsp;"); // always print white space
 		currentTypedWordLabel.setText(newLabelString);
