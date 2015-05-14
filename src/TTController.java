@@ -128,6 +128,11 @@ public class TTController {
 		gameOverPanel.setScoreLabel(game.getLPM());
 	}
 	
+	public void backToStart() {
+		game.endGame(true);
+		toStart();
+	}
+	
 	public void wordChanged() {
 		playSound("res/sounds/ding.wav");
 		updateLabels();

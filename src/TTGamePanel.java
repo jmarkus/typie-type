@@ -2,6 +2,8 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * 
@@ -55,7 +57,7 @@ public class TTGamePanel extends JPanel {
 		currentLPMLabel = new JLabel("LPM");
 		currentLPMLabel.setFont(new java.awt.Font("Impact", 0, 40));
 		size  = currentLPMLabel.getPreferredSize();
-		currentLPMLabel.setBounds(10, 10, size.width, size.height);
+		currentLPMLabel.setBounds(panelSize.width - size.width - 10, panelSize.height - size.height, size.width, size.height);
 		add(currentLPMLabel);
 		
 		timeLeftLabel = new JLabel("Tid kvar:");
@@ -63,6 +65,22 @@ public class TTGamePanel extends JPanel {
 		size  = timeLeftLabel.getPreferredSize();
 		timeLeftLabel.setBounds(10, panelSize.height - size.height, size.width, size.height);
 		add(timeLeftLabel);
+		
+		
+		JButton backButton = new JButton("< Tillbaka till menyn");
+		backButton.addActionListener(new ActionListener() {
+        	@Override
+            public void actionPerformed(ActionEvent event) {
+                controller.backToStart();
+            }
+        });
+		backButton.setFont(new java.awt.Font("Impact", 0, 40));
+		backButton.setOpaque(false);
+		backButton.setContentAreaFilled(false);
+		backButton.setBorderPainted(false);
+        size  = backButton.getPreferredSize();
+        backButton.setBounds(-15, -5, size.width, size.height);
+        add(backButton);
 	}
 	
 	public void setCurrentWordLabel(String word, int correctIndex) {
@@ -78,8 +96,6 @@ public class TTGamePanel extends JPanel {
 	
 	public void setCurrentTypedWordLabel(String typedWord, int currentIndex, int correctIndex) {
 		String newLabelString = "";
-		
-		System.out.println(typedWord + " " + currentIndex + " " + correctIndex);
 		
 		if (currentIndex == 0) {
 			newLabelString = "<html>_<span color=white>" + currentWord.substring(1) + "</span></html>";
@@ -137,8 +153,9 @@ public class TTGamePanel extends JPanel {
 	
 	public void setCurrentLPMLabel(double lpm) {
 		currentLPMLabel.setText(String.format("%.1f rätta bokstäver per minut", lpm));
+		Dimension panelSize = getParent().getSize();
 		Dimension size  = currentLPMLabel.getPreferredSize();
-		currentLPMLabel.setBounds(10, 10, size.width, size.height);
+		currentLPMLabel.setBounds(panelSize.width - size.width - 10, panelSize.height - size.height, size.width, size.height);
 	}
 	
 	

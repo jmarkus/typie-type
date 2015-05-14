@@ -126,7 +126,9 @@ public class TTGame {
 			EventQueue.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					endGame();
+					if (running) {
+						endGame(false);
+					}
 				}
 			});
 		}
@@ -134,10 +136,12 @@ public class TTGame {
 		gameOverThread.start();
 	}
 	
-	public void endGame() {
+	public void endGame(boolean byUser) {
 		running = false;
 		gameOverThread.interrupt();
-		controller.endGame();
+		if (!byUser) {
+			controller.endGame();
+		}
 	}
 	
 	public long getEllapsedTimeMillis() {
