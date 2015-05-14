@@ -44,9 +44,10 @@ public class TTGamePanel extends JPanel {
 		add(currentWordLabel);
 		
 		currentTypedWordLabel = new JLabel("placeholder");
-		currentTypedWordLabel.setFont(new java.awt.Font("Arial", 0, 40));
+		currentTypedWordLabel.setFont(new java.awt.Font("Courier", 0, 40));
 		Dimension currentTypedWordLabelSize = currentTypedWordLabel.getPreferredSize();
-		currentTypedWordLabel.setBounds(panelSize.width / 2 -  currentTypedWordLabelSize.width / 2, panelSize.height / 2 - currentTypedWordLabelSize.height/ 2 + 100, currentTypedWordLabelSize.width, currentTypedWordLabelSize.height);
+		currentTypedWordLabel.setBounds(panelSize.width / 2 -  currentTypedWordLabelSize.width / 2, panelSize.height / 2 - currentTypedWordLabelSize.height/ 2 + 100,
+				currentTypedWordLabelSize.width, currentTypedWordLabelSize.height + 4);
 		Border border = BorderFactory.createLineBorder(Color.BLACK, 2);
 		currentTypedWordLabel.setBorder(border);
 		add(currentTypedWordLabel);
@@ -81,18 +82,21 @@ public class TTGamePanel extends JPanel {
 		if (currentIndex == 0) {
 			newLabelString = "<html></font><font color=white>" + currentWord + "</font></html>";
 		} else if (currentIndex == correctIndex) {
-			newLabelString = "<html><font style=\"background-color:green\">" + currentWord.substring(0, correctIndex) + "</font><font color=white>" + currentWord.substring(correctIndex) + "</font></html>";
+			newLabelString = "<html><span style=\"background-color:green\">" + currentWord.substring(0, correctIndex) +
+					"</span><span color=white>" + currentWord.substring(correctIndex) + "</span></html>";
 		} else if (currentIndex > correctIndex) {
-			newLabelString = "<html><font style=\"background-color:green\">" + typedWord.substring(0, correctIndex) + 
-					"</font><font style=\"background-color:red\">" + typedWord.substring(correctIndex, currentIndex) + 
-					"</font><font color=white>" + typedWord.substring(currentIndex) + "</font></html>";
+			newLabelString = "<html><span style=\"background-color:green\">" + typedWord.substring(0, correctIndex) + 
+					"</span><span style=\"background-color:red\">" + typedWord.substring(correctIndex, currentIndex) + 
+					"</span><span color=white>" + typedWord.substring(currentIndex) + "</span></html>";
 		}
+		newLabelString = newLabelString.replaceAll(" ", "&nbsp;"); // always print white space
 		currentTypedWordLabel.setText(newLabelString);
 		
 		Dimension currentTypedWordLabelSize = currentTypedWordLabel.getPreferredSize();
 		if (currentTypedWordLabelSize.width > currentTypedWordLabel.getWidth()) {
 			Dimension panelSize = getParent().getSize();
-			currentTypedWordLabel.setBounds(panelSize.width / 2 -  currentTypedWordLabelSize.width / 2, panelSize.height / 2 - currentTypedWordLabelSize.height/ 2 + 100, currentTypedWordLabelSize.width, currentTypedWordLabelSize.height);
+			currentTypedWordLabel.setBounds(panelSize.width / 2 -  currentTypedWordLabelSize.width / 2, panelSize.height / 2 - currentTypedWordLabelSize.height/ 2 + 100,
+					currentTypedWordLabelSize.width, currentTypedWordLabelSize.height + 4);
 		}
 		
 	}
@@ -104,7 +108,7 @@ public class TTGamePanel extends JPanel {
 		timeLeftLabel.setBounds(10, panelSize.height - size.height, size.width, size.height);
 	}
 	
-	public void updateLabels() {
+	public void updateLabelLayout() {
 		currentWordLabel.setFont(new java.awt.Font("Arial", 0, DEFAULT_WORDLABEL_FONT_SIZE));
 		Dimension size  = currentWordLabel.getPreferredSize();
 		Dimension panelSize = getParent().getSize();
@@ -121,7 +125,8 @@ public class TTGamePanel extends JPanel {
 		
 		
 		Dimension currentTypedWordLabelSize = currentTypedWordLabel.getPreferredSize();
-		currentTypedWordLabel.setBounds(panelSize.width / 2 -  currentTypedWordLabelSize.width / 2, panelSize.height / 2 - currentTypedWordLabelSize.height/ 2 + 100, currentTypedWordLabelSize.width, currentTypedWordLabelSize.height);
+		currentTypedWordLabel.setBounds(panelSize.width / 2 -  currentTypedWordLabelSize.width / 2, panelSize.height / 2 - currentTypedWordLabelSize.height/ 2 + 100,
+				currentTypedWordLabelSize.width, currentTypedWordLabelSize.height);
 		
 	}
 	

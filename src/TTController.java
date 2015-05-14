@@ -28,7 +28,6 @@ public class TTController {
 	Thread LPMThread;
 	
 	
-	
 	public TTController() {
 		setupGUI();
 	}
@@ -91,7 +90,7 @@ public class TTController {
 		game.controller = this;
 		game.startGame(30);
 		updateLabels();
-		gamePanel.updateLabels();
+		gamePanel.updateLabelLayout();
 		
 		
 		// update LPM and time left label continuously
@@ -132,7 +131,7 @@ public class TTController {
 	public void wordChanged() {
 		playSound("res/sounds/ding.wav");
 		updateLabels();
-		gamePanel.updateLabels();
+		gamePanel.updateLabelLayout();
 	}
 	
 	private class MyKeyListener extends KeyAdapter {
@@ -181,17 +180,18 @@ public class TTController {
 	
 	private void playSound(String path) {
 		File ding = new File(path);
+		
 		try {
 			Clip clip = AudioSystem.getClip();
 			clip.open(AudioSystem.getAudioInputStream(ding));
 			clip.start();
 		} catch (UnsupportedAudioFileException e) {
 	         e.printStackTrace();
-	     } catch (IOException e) {
+	    } catch (IOException e) {
 	         e.printStackTrace();
-	     } catch (LineUnavailableException e) {
+	    } catch (LineUnavailableException e) {
 	         e.printStackTrace();
-	     }
+	    }
 	}
 
 }
