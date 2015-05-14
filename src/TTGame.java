@@ -22,7 +22,9 @@ public class TTGame {
 	
 	public TTController controller;
 	public String currentWord;
+	public String currentTypedWord;
 	public int currentIndex;
+	public int currentCorrectIndex;
 	public int level;
 	public boolean running;
 	
@@ -54,27 +56,56 @@ public class TTGame {
 		while (oldWord == currentWord) { // not the same word again
 			currentWord = words.get(rand.nextInt(words.size()));
 		}
+		currentTypedWord = "";
 		currentIndex = 0;
+		currentCorrectIndex = 0;
 		System.out.println("New word: " + currentWord);
 	}
 	
 	public boolean matchLetter(char letter) {
-		boolean match = currentWord.charAt(currentIndex) == letter;
-		if (match) {
-			currentIndex++;
-			correctLetters++;
-			if (currentIndex == currentWord.length()) {
-				correctWords++;
-				changeCurrentWord();
-				controller.wordChanged();
+		
+		if (currentIndex < currentWord.length()) {
+			
+			currentTypedWord += letter;
+			
+			if (currentIndex == currentCorrectIndex) {
+				boolean match = currentWord.charAt(currentIndex) == letter;
+				currentIndex++;
+				if (match) {
+					currentCorrectIndex++;
+					correctLetters++;
+					if (currentCorrectIndex == currentWord.length()) {
+						correctWords++;
+						changeCurrentWord();
+						controller.wordChanged();
+					}
+				}
+				return match;
+			} else {
+				currentIndex++;
 			}
+			
+			
 		}
 		
-		return match;
+		return false;
+	}
+	
+	public void backspace() {
+		if (currentTypedWord.length() > 0) {
+			currentTypedWord = currentTypedWord.substring(0, currentTypedWord.length() - 1);
+			
+			if (currentCorrectIndex == currentIndex) {
+				currentCorrectIndex--;
+				correctLetters--;
+			}
+			currentIndex--;
+		}
 	}
 	
 	public void startGame(int time) {
 		currentWord = "";
+		currentTypedWord = "";
 		correctLetters = 0;
 		changeCurrentWord();
 		running = true;

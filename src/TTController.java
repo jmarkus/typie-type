@@ -69,6 +69,11 @@ public class TTController {
 		}
 	}
 	
+	private void updateLabels() {
+		gamePanel.setCurrentWordLabel(game.currentWord, game.currentCorrectIndex);
+		gamePanel.setCurrentTypedWordLabel(game.currentTypedWord, game.currentIndex, game.currentCorrectIndex);
+	}
+	
 	
 	public void startGame(int level) {
 		startPanel.setVisible(false);
@@ -85,8 +90,8 @@ public class TTController {
 		game = new TTGame(level);
 		game.controller = this;
 		game.startGame(30);
-		gamePanel.setCurrentWordLabel(game.currentWord, game.currentIndex);
-		gamePanel.updateCurrentWordLabel();
+		updateLabels();
+		gamePanel.updateLabels();
 		
 		
 		// update LPM and time left label continuously
@@ -126,8 +131,8 @@ public class TTController {
 	
 	public void wordChanged() {
 		playSound("res/sounds/ding.wav");
-		gamePanel.setCurrentWordLabel(game.currentWord, game.currentIndex);
-		gamePanel.updateCurrentWordLabel();
+		updateLabels();
+		gamePanel.updateLabels();
 	}
 	
 	private class MyKeyListener extends KeyAdapter {
@@ -149,16 +154,24 @@ public class TTController {
 			case 32:
 				letterPressed = ' ';
 				break;
+			case 8:
+				game.backspace();
+				updateLabels();
+				return;
 			}
 			
 			if (game != null) {
 				if (game.running) {
+					
 					if (game.matchLetter(letterPressed)) {
-						gamePanel.setCurrentWordLabel(game.currentWord, game.currentIndex);
+						
 						
 					} else {
 						playSound("res/sounds/incorrect.aiff");
 					}
+					
+					updateLabels();
+					
 				}
 			}
 			

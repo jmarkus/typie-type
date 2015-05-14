@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.Border;
 
 import java.awt.*;
 
@@ -19,6 +20,7 @@ public class TTGamePanel extends JPanel {
 	private static final int DEFAULT_WORDLABEL_FONT_SIZE = 80;
 	
 	JLabel currentWordLabel;
+	JLabel currentTypedWordLabel;
 	JLabel currentLPMLabel;
 	JLabel timeLeftLabel;
 	
@@ -41,6 +43,14 @@ public class TTGamePanel extends JPanel {
 		currentWordLabel.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 - 100, size.width, size.height);
 		add(currentWordLabel);
 		
+		currentTypedWordLabel = new JLabel("placeholder");
+		currentTypedWordLabel.setFont(new java.awt.Font("Arial", 0, 40));
+		Dimension currentTypedWordLabelSize = currentTypedWordLabel.getPreferredSize();
+		currentTypedWordLabel.setBounds(panelSize.width / 2 -  currentTypedWordLabelSize.width / 2, panelSize.height / 2 - currentTypedWordLabelSize.height/ 2 + 100, currentTypedWordLabelSize.width, currentTypedWordLabelSize.height);
+		Border border = BorderFactory.createLineBorder(Color.BLACK, 2);
+		currentTypedWordLabel.setBorder(border);
+		add(currentTypedWordLabel);
+		
 		currentLPMLabel = new JLabel("LPM");
 		currentLPMLabel.setFont(new java.awt.Font("Impact", 0, 40));
 		size  = currentLPMLabel.getPreferredSize();
@@ -54,13 +64,35 @@ public class TTGamePanel extends JPanel {
 		add(timeLeftLabel);
 	}
 	
-	public void setCurrentWordLabel(String word, int currentIndex) {
+	public void setCurrentWordLabel(String word, int correctIndex) {
 		currentWord = word;
 		
-		if (currentIndex == 0) {
+		if (correctIndex == 0) {
 			currentWordLabel.setText("<html>" + currentWord + "</html>");
 		} else {
-			currentWordLabel.setText("<html><font color=green>" + currentWord.substring(0, currentIndex) + "</font><font color=black>" + currentWord.substring(currentIndex) + "</font></html>");
+			currentWordLabel.setText("<html><font color=green>" + currentWord.substring(0, correctIndex) + "</font><font color=black>" + currentWord.substring(correctIndex) + "</font></html>");
+		}
+		
+	}
+	
+	public void setCurrentTypedWordLabel(String typedWord, int currentIndex, int correctIndex) {
+		String newLabelString = "";
+		
+		if (currentIndex == 0) {
+			newLabelString = "<html></font><font color=white>" + currentWord + "</font></html>";
+		} else if (currentIndex == correctIndex) {
+			newLabelString = "<html><font style=\"background-color:green\">" + currentWord.substring(0, correctIndex) + "</font><font color=white>" + currentWord.substring(correctIndex) + "</font></html>";
+		} else if (currentIndex > correctIndex) {
+			newLabelString = "<html><font style=\"background-color:green\">" + typedWord.substring(0, correctIndex) + 
+					"</font><font style=\"background-color:red\">" + typedWord.substring(correctIndex, currentIndex) + 
+					"</font><font color=white>" + typedWord.substring(currentIndex) + "</font></html>";
+		}
+		currentTypedWordLabel.setText(newLabelString);
+		
+		Dimension currentTypedWordLabelSize = currentTypedWordLabel.getPreferredSize();
+		if (currentTypedWordLabelSize.width > currentTypedWordLabel.getWidth()) {
+			Dimension panelSize = getParent().getSize();
+			currentTypedWordLabel.setBounds(panelSize.width / 2 -  currentTypedWordLabelSize.width / 2, panelSize.height / 2 - currentTypedWordLabelSize.height/ 2 + 100, currentTypedWordLabelSize.width, currentTypedWordLabelSize.height);
 		}
 		
 	}
@@ -72,7 +104,7 @@ public class TTGamePanel extends JPanel {
 		timeLeftLabel.setBounds(10, panelSize.height - size.height, size.width, size.height);
 	}
 	
-	public void updateCurrentWordLabel() {
+	public void updateLabels() {
 		currentWordLabel.setFont(new java.awt.Font("Arial", 0, DEFAULT_WORDLABEL_FONT_SIZE));
 		Dimension size  = currentWordLabel.getPreferredSize();
 		Dimension panelSize = getParent().getSize();
@@ -86,6 +118,11 @@ public class TTGamePanel extends JPanel {
 		}
 		
 		currentWordLabel.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 - 100, size.width, size.height);
+		
+		
+		Dimension currentTypedWordLabelSize = currentTypedWordLabel.getPreferredSize();
+		currentTypedWordLabel.setBounds(panelSize.width / 2 -  currentTypedWordLabelSize.width / 2, panelSize.height / 2 - currentTypedWordLabelSize.height/ 2 + 100, currentTypedWordLabelSize.width, currentTypedWordLabelSize.height);
+		
 	}
 	
 	public void setCurrentLPMLabel(double lpm) {
