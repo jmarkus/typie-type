@@ -17,6 +17,7 @@ public class TTGame {
 	long startTime;
 	int gameTime;
 	int correctLetters;
+	int correctWords;
 	Thread gameOverThread;
 	
 	public TTController controller;
@@ -50,7 +51,7 @@ public class TTGame {
 	
 	private void changeCurrentWord() {
 		String oldWord = currentWord;
-		while (oldWord == currentWord) {
+		while (oldWord == currentWord) { // not the same word again
 			currentWord = words.get(rand.nextInt(words.size()));
 		}
 		currentIndex = 0;
@@ -63,6 +64,7 @@ public class TTGame {
 			currentIndex++;
 			correctLetters++;
 			if (currentIndex == currentWord.length()) {
+				correctWords++;
 				changeCurrentWord();
 				controller.wordChanged();
 			}

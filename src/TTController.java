@@ -89,7 +89,7 @@ public class TTController {
 		gamePanel.updateCurrentWordLabel();
 		
 		
-		// update LPM label continuously
+		// update LPM and time left label continuously
 		LPMThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
