@@ -1,5 +1,4 @@
 HARNESK
-MÅNNE
 VARMKORV
 ÖVERDOS
 FÖDELSEDAG
@@ -15,7 +14,6 @@ ARRANGEMANG
 KAMMARKÖR
 LESBISK
 VIDEOBANDSPELARE
-OSÖKT
 ANNALKANDE
 CESIUM
 HÖGERBACK
@@ -24,8 +22,6 @@ KYRKOHERDE
 LITOGRAFI
 HEDERSLEDAMOT
 BARNOMSORG
-AVLASTA
-AVSTAMP
 FÖRSÖKSVERKSAMHET
 ADDITIV
 REDOVISNING
@@ -49,9 +45,16 @@ avföda
 obekvämlighetstillägg
 corgi
 avelsamhet
-mohave
 tofslärka
 fjärrstyrning
 slutändan
 strandhugg
 kvällskvist
+boktryckerikonst
+blasfemi
+festplanerare
+Fingerfärdig
+konstituerande
+kringsvävar
+spottstyver
+Truckersmörgås

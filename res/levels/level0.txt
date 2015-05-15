@@ -54,3 +54,7 @@ förr
 scen
 allt
 besökare
+OSÖKT
+MÅNNE
+AVSTAMP
+AVLASTA
