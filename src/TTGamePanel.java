@@ -28,6 +28,7 @@ public class TTGamePanel extends JPanel {
 	JLabel currentWordCountLabel;
 	
 	String mode;
+	int difficulty;
 	String currentWord;
 	
 	public TTGamePanel() {
@@ -144,17 +145,24 @@ public class TTGamePanel extends JPanel {
 		currentWordCountLabel.setBounds(10, panelSize.height - size.height, size.width, size.height);
 	}
 	
-	public void setLabelLayout(String mode) {
+	public void setLabelLayout(String mode, int difficulty) {
 		this.mode = mode;
+		this.difficulty = difficulty;
 		
 		if (mode == "game") {
 			timeLeftLabel.setVisible(true);
 			currentLPMLabel.setVisible(true);
 			currentWordCountLabel.setVisible(false);
+			if (difficulty >= 3) {
+				currentTypedWordLabel.setVisible(false);
+			} else {
+				currentTypedWordLabel.setVisible(true);
+			}
 		} else if (mode == "practice") {
 			timeLeftLabel.setVisible(false);
 			currentLPMLabel.setVisible(false);
 			currentWordCountLabel.setVisible(true);
+			currentTypedWordLabel.setVisible(true);
 		}
 		
 		updateLabelLayout();
@@ -175,11 +183,11 @@ public class TTGamePanel extends JPanel {
 		
 		currentWordLabel.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 - 100, size.width, size.height);
 		
-		
-		Dimension currentTypedWordLabelSize = currentTypedWordLabel.getPreferredSize();
-		currentTypedWordLabel.setBounds(panelSize.width / 2 -  currentTypedWordLabelSize.width / 2, panelSize.height / 2 - currentTypedWordLabelSize.height/ 2 + 100,
-				currentTypedWordLabelSize.width, currentTypedWordLabelSize.height);
-		
+		if (difficulty <= 2) {
+			Dimension currentTypedWordLabelSize = currentTypedWordLabel.getPreferredSize();
+			currentTypedWordLabel.setBounds(panelSize.width / 2 -  currentTypedWordLabelSize.width / 2, panelSize.height / 2 - currentTypedWordLabelSize.height/ 2 + 100,
+					currentTypedWordLabelSize.width, currentTypedWordLabelSize.height);
+		}
 	}
 	
 	public void setCurrentLPMLabel(double lpm) {

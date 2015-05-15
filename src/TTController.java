@@ -75,8 +75,9 @@ public class TTController {
 		}
 		
 		gamePanel.setCurrentWordLabel(game.currentWord, game.currentCorrectIndex);
-		gamePanel.setCurrentTypedWordLabel(game.currentTypedWord, game.currentIndex, game.currentCorrectIndex);
-		
+		if (game.difficulty <= 2) {
+			gamePanel.setCurrentTypedWordLabel(game.currentTypedWord, game.currentIndex, game.currentCorrectIndex);
+		}
 	}
 	
 	
@@ -97,7 +98,7 @@ public class TTController {
 		game.startGame(30);
 		
 		updateLabels();
-		gamePanel.setLabelLayout("game");
+		gamePanel.setLabelLayout("game", level);
 		
 		
 		// update LPM and time left label continuously
@@ -136,7 +137,7 @@ public class TTController {
 		game.startGame(0);
 		
 		updateLabels();
-		gamePanel.setLabelLayout("practice");
+		gamePanel.setLabelLayout("practice", 0);
 	}
 	
 	public void endGame(boolean byUser) {

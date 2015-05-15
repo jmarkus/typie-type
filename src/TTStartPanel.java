@@ -16,6 +16,7 @@ public class TTStartPanel extends JPanel {
 	JButton easyButton;
 	JButton mediumButton;
 	JButton hardButton;
+	JButton extremeButton;
 	
 	
 	public TTStartPanel() {
@@ -69,7 +70,7 @@ public class TTStartPanel extends JPanel {
         practiceButton.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 + 105, size.width, size.height);
         add(practiceButton);
         
-        easyButton = new JButton("Starta lätt");
+        easyButton = new JButton("Starta inte svår");
 		easyButton.addActionListener(new ActionListener() {
         	@Override
             public void actionPerformed(ActionEvent event) {
@@ -86,7 +87,7 @@ public class TTStartPanel extends JPanel {
         easyButton.setVisible(false);
         add(easyButton);
 		
-        mediumButton = new JButton("Starta medelsvår");
+        mediumButton = new JButton("Starta lite svår");
         mediumButton.addActionListener(new ActionListener() {
         	@Override
             public void actionPerformed(ActionEvent event) {
@@ -103,7 +104,7 @@ public class TTStartPanel extends JPanel {
         mediumButton.setVisible(false);
         add(mediumButton);
         
-        hardButton = new JButton("Starta svår");
+        hardButton = new JButton("Starta ganska svår");
         hardButton.addActionListener(new ActionListener() {
         	@Override
             public void actionPerformed(ActionEvent event) {
@@ -119,6 +120,25 @@ public class TTStartPanel extends JPanel {
         hardButton.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 + 150, size.width, size.height);
         hardButton.setVisible(false);
         add(hardButton);
+        
+        extremeButton = new JButton("Starta väldigt svår");
+        extremeButton.addActionListener(new ActionListener() {
+        	@Override
+            public void actionPerformed(ActionEvent event) {
+        		toggleButtons();
+                controller.startGame(3);
+            }
+        });
+        extremeButton.setFont(new java.awt.Font("Impact", 0, 30));
+        extremeButton.setOpaque(false);
+        extremeButton.setContentAreaFilled(false);
+        extremeButton.setBorderPainted(false);
+        size  = extremeButton.getPreferredSize();
+        extremeButton.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 + 210, size.width, size.height);
+        extremeButton.setVisible(false);
+        add(extremeButton);
+        
+        
 	}
 	
 	private void toggleButtons() {
@@ -127,6 +147,7 @@ public class TTStartPanel extends JPanel {
 			easyButton.setVisible(false);
 			mediumButton.setVisible(false);
 			hardButton.setVisible(false);
+			extremeButton.setVisible(false);
 			
 			gameButton.setVisible(true);
     		practiceButton.setVisible(true);
@@ -134,6 +155,7 @@ public class TTStartPanel extends JPanel {
 			easyButton.setVisible(true);
 			mediumButton.setVisible(true);
 			hardButton.setVisible(true);
+			extremeButton.setVisible(true);
 			
 			gameButton.setVisible(false);
     		practiceButton.setVisible(false);

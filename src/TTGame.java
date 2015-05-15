@@ -26,15 +26,36 @@ public class TTGame {
 	public String currentTypedWord;
 	public int currentIndex;
 	public int currentCorrectIndex;
-	public int level;
+	public int difficulty;
 	public boolean running;
 	
 	
-	public TTGame(String mode, int level) {
+	public TTGame(String mode, int difficulty) {
 		running = false;
 		words = new ArrayList<String>(100);
-		readInLevelFile(level);
+		
+		switch (difficulty) {
+		case 0:
+			readInLevelFile(0);
+			break;
+		case 1:
+			readInLevelFile(0);
+			readInLevelFile(1);
+			break;
+		case 2:
+			readInLevelFile(1);
+			readInLevelFile(2);
+			break;
+		case 3:
+			readInLevelFile(2);
+			break;
+		default:
+			readInLevelFile(0);
+			break;
+		}
+		
 		this.mode = mode;
+		this.difficulty = difficulty;
 	}
 	
 	private void readInLevelFile(int level) {
@@ -68,24 +89,43 @@ public class TTGame {
 		
 		if (currentIndex < currentWord.length()) {
 			
-			currentTypedWord += letter;
-			
-			if (currentIndex == currentCorrectIndex) {
+			if (difficulty == 0) {
 				boolean match = currentWord.charAt(currentIndex) == letter;
-				currentIndex++;
 				if (match) {
+					currentIndex++;
 					currentCorrectIndex++;
 					correctLetters++;
-					if (currentCorrectIndex == currentWord.length()) {
+					currentTypedWord += letter;
+					if (currentIndex == currentWord.length()) {
 						correctWords++;
 						changeCurrentWord();
 						controller.wordChanged();
 					}
 				}
 				return match;
+				
 			} else {
-				currentIndex++;
+				
+				currentTypedWord += letter;
+				
+				if (currentIndex == currentCorrectIndex) {
+					boolean match = currentWord.charAt(currentIndex) == letter;
+					currentIndex++;
+					if (match) {
+						currentCorrectIndex++;
+						correctLetters++;
+						if (currentCorrectIndex == currentWord.length()) {
+							correctWords++;
+							changeCurrentWord();
+							controller.wordChanged();
+						}
+					}
+					return match;
+				} else {
+					currentIndex++;
+				}
 			}
+			
 			
 			
 		}
