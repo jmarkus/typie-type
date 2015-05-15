@@ -4,7 +4,7 @@ minsta
 värre
 borta
 skada
-ledamot
+LÄCKA
 regel
 kvinna
 nr
@@ -33,7 +33,7 @@ tävling
 fyra
 flytta
 värd
-professor
+KRETS
 heta
 under
 back
@@ -41,5 +41,16 @@ senare
 arbete
 å
 tredje
-bestående
 formel
+PEDAL
+SKÖRD
+bit
+verk
+södra
+upphov
+motorväg
+åker
+förr
+scen
+allt
+besökare

@@ -122,12 +122,14 @@ public class TTGamePanel extends JPanel {
 		newLabelString = newLabelString.replaceAll(" ", "&nbsp;"); // always print white space
 		currentTypedWordLabel.setText(newLabelString);
 		
+		/* adjust if current typed word is longer than label not needed with monospaced font
 		Dimension currentTypedWordLabelSize = currentTypedWordLabel.getPreferredSize();
 		if (currentTypedWordLabelSize.width > currentTypedWordLabel.getWidth()) {
 			Dimension panelSize = getParent().getSize();
 			currentTypedWordLabel.setBounds(panelSize.width / 2 -  currentTypedWordLabelSize.width / 2, panelSize.height / 2 - currentTypedWordLabelSize.height/ 2 + 100,
 					currentTypedWordLabelSize.width, currentTypedWordLabelSize.height + 4);
 		}
+		*/
 		
 	}
 	
