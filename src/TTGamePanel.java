@@ -25,7 +25,9 @@ public class TTGamePanel extends JPanel {
 	JLabel currentTypedWordLabel;
 	JLabel currentLPMLabel;
 	JLabel timeLeftLabel;
+	JLabel currentWordCountLabel;
 	
+	String mode;
 	String currentWord;
 	
 	public TTGamePanel() {
@@ -65,6 +67,12 @@ public class TTGamePanel extends JPanel {
 		size  = timeLeftLabel.getPreferredSize();
 		timeLeftLabel.setBounds(10, panelSize.height - size.height, size.width, size.height);
 		add(timeLeftLabel);
+		
+		currentWordCountLabel = new JLabel("Antal ord:");
+		currentWordCountLabel.setFont(new java.awt.Font("Impact", 0, 40));
+		size  = currentWordCountLabel.getPreferredSize();
+		currentWordCountLabel.setBounds(10, panelSize.height - size.height, size.width, size.height);
+		add(currentWordCountLabel);
 		
 		
 		JButton backButton = new JButton("< Tillbaka till menyn");
@@ -127,6 +135,29 @@ public class TTGamePanel extends JPanel {
 		Dimension size  = timeLeftLabel.getPreferredSize();
 		Dimension panelSize = getParent().getSize();
 		timeLeftLabel.setBounds(10, panelSize.height - size.height, size.width, size.height);
+	}
+	
+	public void setCurrentWordCount(int count) {
+		currentWordCountLabel.setText(String.format("Antal ord: %d", count));
+		Dimension size  = currentWordCountLabel.getPreferredSize();
+		Dimension panelSize = getParent().getSize();
+		currentWordCountLabel.setBounds(10, panelSize.height - size.height, size.width, size.height);
+	}
+	
+	public void setLabelLayout(String mode) {
+		this.mode = mode;
+		
+		if (mode == "game") {
+			timeLeftLabel.setVisible(true);
+			currentLPMLabel.setVisible(true);
+			currentWordCountLabel.setVisible(false);
+		} else if (mode == "practice") {
+			timeLeftLabel.setVisible(false);
+			currentLPMLabel.setVisible(false);
+			currentWordCountLabel.setVisible(true);
+		}
+		
+		updateLabelLayout();
 	}
 	
 	public void updateLabelLayout() {

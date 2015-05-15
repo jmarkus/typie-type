@@ -66,11 +66,17 @@ public class TTController {
 		} else {
 			startPanel.setVisible(true);
 		}
+		
 	}
 	
 	private void updateLabels() {
+		if (game.mode == "practice") {
+			gamePanel.setCurrentWordCount(game.getWordCount());
+		}
+		
 		gamePanel.setCurrentWordLabel(game.currentWord, game.currentCorrectIndex);
 		gamePanel.setCurrentTypedWordLabel(game.currentTypedWord, game.currentIndex, game.currentCorrectIndex);
+		
 	}
 	
 	
@@ -86,18 +92,19 @@ public class TTController {
 			gamePanel.setVisible(true);
 		}
 		
-		game = new TTGame(level);
+		game = new TTGame("game", level);
 		game.controller = this;
 		game.startGame(30);
+		
 		updateLabels();
-		gamePanel.updateLabelLayout();
+		gamePanel.setLabelLayout("game");
 		
 		
 		// update LPM and time left label continuously
 		LPMThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				while (game.running) {
+				while (game != null && game.running) {
 		    		gamePanel.setCurrentLPMLabel(game.getLPM());
 		    		gamePanel.setTimeLeftLabel((int)game.getTimeLeftMillis() / 1000 + 1);
 		    		try {
@@ -113,23 +120,48 @@ public class TTController {
 	}
 	
 	public void startPracticeGame() {
+		startPanel.setVisible(false);
 		
-	}
-	
-	public void endGame() {
-		System.out.println("Game Over");
-		gamePanel.setVisible(false);
-		
-		if (gameOverPanel == null) {
-			gameOverPanel = new TTGameOverPanel();
-			gameOverPanel.controller = this;
-			mainFrame.add(gameOverPanel);
-			gameOverPanel.setup();
+		if (gamePanel == null) {
+			gamePanel = new TTGamePanel();
+			gamePanel.controller = this;
+			mainFrame.add(gamePanel);
+			gamePanel.setup();
 		} else {
-			gameOverPanel.setVisible(true);
+			gamePanel.setVisible(true);
 		}
 		
-		gameOverPanel.setScoreLabel(game.getLPM());
+		game = new TTGame("practice", 0);
+		game.controller = this;
+		game.startGame(0);
+		
+		updateLabels();
+		gamePanel.setLabelLayout("practice");
+	}
+	
+	public void endGame(boolean byUser) {
+		
+		if (!byUser) {
+			System.out.println("Game Over");
+			gamePanel.setVisible(false);
+			
+			if (gameOverPanel == null) {
+				gameOverPanel = new TTGameOverPanel();
+				gameOverPanel.controller = this;
+				mainFrame.add(gameOverPanel);
+				gameOverPanel.setup();
+			} else {
+				gameOverPanel.setVisible(true);
+			}
+			
+			gameOverPanel.setScoreLabel(game.getLPM());
+		}
+		
+		if (game != null) {
+			game.controller = null;
+			game = null;
+		}
+		
 	}
 	
 	public void backToStart() {

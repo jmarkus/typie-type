@@ -21,6 +21,7 @@ public class TTGame {
 	Thread gameOverThread;
 	
 	public TTController controller;
+	public String mode;
 	public String currentWord;
 	public String currentTypedWord;
 	public int currentIndex;
@@ -29,10 +30,11 @@ public class TTGame {
 	public boolean running;
 	
 	
-	public TTGame(int level) {
+	public TTGame(String mode, int level) {
 		running = false;
 		words = new ArrayList<String>(100);
 		readInLevelFile(level);
+		this.mode = mode;
 	}
 	
 	private void readInLevelFile(int level) {
@@ -109,39 +111,44 @@ public class TTGame {
 		correctLetters = 0;
 		changeCurrentWord();
 		running = true;
-		gameTime = time * 1000;
-		startTime = System.currentTimeMillis();
 		
-		// end game after 1 minute
-		gameOverThread = new Thread(new Runnable() {
-		@Override
-		public void run() {
-			try {
-				Thread.sleep(gameTime);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		if (mode == "game") {
+			gameTime = time * 1000;
+			startTime = System.currentTimeMillis();
 			
-			// Continue on main thread
-			EventQueue.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					if (running) {
-						endGame(false);
-					}
+			// end game after some time
+			gameOverThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(gameTime);
+				} catch (InterruptedException e) {
+					//e.printStackTrace();
+					System.out.println("Game clock interrupted");
 				}
+				
+				// Continue on main thread
+				EventQueue.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						if (running) {
+							endGame(false);
+						}
+					}
+				});
+			}
 			});
+			gameOverThread.start();
 		}
-		});
-		gameOverThread.start();
+		
 	}
 	
 	public void endGame(boolean byUser) {
 		running = false;
-		gameOverThread.interrupt();
-		if (!byUser) {
-			controller.endGame();
+		if (gameOverThread != null) {
+			gameOverThread.interrupt();
 		}
+		controller.endGame(byUser);
 	}
 	
 	public long getEllapsedTimeMillis() {
@@ -154,6 +161,10 @@ public class TTGame {
 	
 	public long getTimeLeftMillis() {
 		return gameTime - getEllapsedTimeMillis();
+	}
+	
+	public int getWordCount() {
+		return correctWords;
 	}
 	
 
