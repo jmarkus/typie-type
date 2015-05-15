@@ -112,6 +112,10 @@ public class TTController {
 		LPMThread.start();
 	}
 	
+	public void startPracticeGame() {
+		
+	}
+	
 	public void endGame() {
 		System.out.println("Game Over");
 		gamePanel.setVisible(false);

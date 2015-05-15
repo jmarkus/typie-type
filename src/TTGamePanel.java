@@ -74,12 +74,12 @@ public class TTGamePanel extends JPanel {
                 controller.backToStart();
             }
         });
-		backButton.setFont(new java.awt.Font("Impact", 0, 40));
+		backButton.setFont(new java.awt.Font("Impact", 0, 30));
 		backButton.setOpaque(false);
 		backButton.setContentAreaFilled(false);
 		backButton.setBorderPainted(false);
         size  = backButton.getPreferredSize();
-        backButton.setBounds(-15, -5, size.width, size.height);
+        backButton.setBounds(-10, 0, size.width, size.height);
         add(backButton);
 	}
 	
