@@ -20,6 +20,7 @@ public class TTGameOverPanel extends JPanel {
 	
 	JLabel gameOverLabel;
 	JLabel scoreLabel;
+	JLabel writeNameLabel;
 	
 	
 	public TTGameOverPanel() {
@@ -39,31 +40,45 @@ public class TTGameOverPanel extends JPanel {
 		gameOverLabel.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 - 100, size.width, size.height);
 		add(gameOverLabel);
 		
-		scoreLabel = new JLabel("Du fick poäng");
-		scoreLabel.setFont(new java.awt.Font("Impact", 0, 60));
+		scoreLabel = new JLabel("Du skrev ord eller uttryck och fick poäng");
+		scoreLabel.setFont(new java.awt.Font("Impact", 0, 50));
 		size  = scoreLabel.getPreferredSize();
 		scoreLabel.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2, size.width, size.height);
 		add(scoreLabel);
+		
+		writeNameLabel = new JLabel("Skriv ditt namn här: BOB");
+		writeNameLabel.setFont(new java.awt.Font("Impact", 0, 50));
+		size  = writeNameLabel.getPreferredSize();
+		writeNameLabel.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 + 100, size.width, size.height);
+		add(writeNameLabel);
+		
 		
 		JButton toStartButton = new JButton("OK");
 		toStartButton.addActionListener(new ActionListener() {
         	@Override
             public void actionPerformed(ActionEvent event) {
-                controller.toStart();
+                controller.submitHighscore();
             }
         });
 		size  = toStartButton.getPreferredSize();
 		toStartButton.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 + 200, size.width, size.height);
         add(toStartButton);
+        
 	}
 	
-	public void setScoreLabel(double score) {
-		scoreLabel.setText(String.format("Du fick %.1f poäng", score));
-		scoreLabel.setFont(new java.awt.Font("Impact", 0, 60));
+	public void setScoreLabel(int nWords, double score) {
+		scoreLabel.setText(String.format("Du sekrev %d ord eller uttryck och fick %.1f poäng", nWords, score));
+		scoreLabel.setFont(new java.awt.Font("Impact", 0, 50));
 		Dimension size  = scoreLabel.getPreferredSize();
 		Dimension panelSize = getParent().getSize();
 		scoreLabel.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2, size.width, size.height);
 		add(scoreLabel);
+	}
+	
+	public void setName(String name) {
+		writeNameLabel.setText("Skriv ditt namn här: " + name);
+		Dimension size  = writeNameLabel.getPreferredSize();
+		writeNameLabel.setBounds(writeNameLabel.getX(), writeNameLabel.getY(), size.width, writeNameLabel.getHeight());
 	}
 	
 	

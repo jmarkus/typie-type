@@ -18,6 +18,8 @@ public class TTStartPanel extends JPanel {
 	JButton hardButton;
 	JButton extremeButton;
 	
+	String mode;
+	
 	
 	public TTStartPanel() {
 		setBackground(Color.WHITE);
@@ -43,6 +45,7 @@ public class TTStartPanel extends JPanel {
 		gameButton.addActionListener(new ActionListener() {
         	@Override
             public void actionPerformed(ActionEvent event) {
+        		mode = "game";
         		toggleButtons();
         		repaint();
             }
@@ -59,7 +62,9 @@ public class TTStartPanel extends JPanel {
         practiceButton.addActionListener(new ActionListener() {
         	@Override
             public void actionPerformed(ActionEvent event) {
-        		controller.startPracticeGame();;
+        		mode = "practice";
+        		toggleButtons();
+        		repaint();
             }
         });
         practiceButton.setFont(new java.awt.Font("Impact", 0, 30));
@@ -70,12 +75,16 @@ public class TTStartPanel extends JPanel {
         practiceButton.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 + 105, size.width, size.height);
         add(practiceButton);
         
-        easyButton = new JButton("Starta inte svår");
+        easyButton = new JButton("Inte svårt");
 		easyButton.addActionListener(new ActionListener() {
         	@Override
             public void actionPerformed(ActionEvent event) {
         		toggleButtons();
-                controller.startGame(0);
+        		if (mode == "game") {
+        			controller.startGame(0);
+        		} else if (mode == "practice") {
+        			controller.startPracticeGame(0);
+        		}
             }
         });
 		easyButton.setFont(new java.awt.Font("Impact", 0, 30));
@@ -87,12 +96,16 @@ public class TTStartPanel extends JPanel {
         easyButton.setVisible(false);
         add(easyButton);
 		
-        mediumButton = new JButton("Starta lite svår");
+        mediumButton = new JButton("Lite svårt");
         mediumButton.addActionListener(new ActionListener() {
         	@Override
             public void actionPerformed(ActionEvent event) {
         		toggleButtons();
-                controller.startGame(1);
+        		if (mode == "game") {
+        			controller.startGame(1);
+        		} else if (mode == "practice") {
+        			controller.startPracticeGame(1);
+        		}
             }
         });
         mediumButton.setFont(new java.awt.Font("Impact", 0, 30));
@@ -104,12 +117,16 @@ public class TTStartPanel extends JPanel {
         mediumButton.setVisible(false);
         add(mediumButton);
         
-        hardButton = new JButton("Starta ganska svår");
+        hardButton = new JButton("Ganska svårt");
         hardButton.addActionListener(new ActionListener() {
         	@Override
             public void actionPerformed(ActionEvent event) {
         		toggleButtons();
-                controller.startGame(2);
+        		if (mode == "game") {
+        			controller.startGame(2);
+        		} else if (mode == "practice") {
+        			controller.startPracticeGame(2);
+        		}
             }
         });
         hardButton.setFont(new java.awt.Font("Impact", 0, 30));
@@ -121,12 +138,16 @@ public class TTStartPanel extends JPanel {
         hardButton.setVisible(false);
         add(hardButton);
         
-        extremeButton = new JButton("Starta väldigt svår");
+        extremeButton = new JButton("Väldigt svårt");
         extremeButton.addActionListener(new ActionListener() {
         	@Override
             public void actionPerformed(ActionEvent event) {
         		toggleButtons();
-                controller.startGame(3);
+        		if (mode == "game") {
+        			controller.startGame(3);
+        		} else if (mode == "practice") {
+        			controller.startPracticeGame(3);
+        		}
             }
         });
         extremeButton.setFont(new java.awt.Font("Impact", 0, 30));

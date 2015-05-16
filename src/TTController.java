@@ -2,8 +2,15 @@
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -24,8 +31,11 @@ public class TTController {
 	TTGamePanel gamePanel;
 	TTGameOverPanel gameOverPanel;
 	TTGame game;
+	String playerName;
 	
 	Thread LPMThread;
+	
+	HashMap<Integer, ArrayList<TTHighscore>> highscores;
 	
 	
 	public TTController() {
@@ -50,6 +60,11 @@ public class TTController {
 	}
 	
 	public void toStart() {
+		if (game != null) {
+			game.controller = null;
+			game = null;
+		}
+		
 		if (gamePanel != null) {
 			gamePanel.setVisible(false);
 		}
@@ -120,7 +135,7 @@ public class TTController {
 		LPMThread.start();
 	}
 	
-	public void startPracticeGame() {
+	public void startPracticeGame(int level) {
 		startPanel.setVisible(false);
 		
 		if (gamePanel == null) {
@@ -132,16 +147,15 @@ public class TTController {
 			gamePanel.setVisible(true);
 		}
 		
-		game = new TTGame("practice", 0);
+		game = new TTGame("practice", level);
 		game.controller = this;
 		game.startGame(0);
 		
 		updateLabels();
-		gamePanel.setLabelLayout("practice", 0);
+		gamePanel.setLabelLayout("practice", level);
 	}
 	
 	public void endGame(boolean byUser) {
-		
 		if (!byUser) {
 			System.out.println("Game Over");
 			gamePanel.setVisible(false);
@@ -155,12 +169,9 @@ public class TTController {
 				gameOverPanel.setVisible(true);
 			}
 			
-			gameOverPanel.setScoreLabel(game.getLPM());
-		}
-		
-		if (game != null) {
-			game.controller = null;
-			game = null;
+			gameOverPanel.setScoreLabel(game.getWordCount(), game.getScore());
+			playerName = "";
+			gameOverPanel.setName(playerName);
 		}
 		
 	}
@@ -168,6 +179,30 @@ public class TTController {
 	public void backToStart() {
 		game.endGame(true);
 		toStart();
+	}
+	
+	public void submitHighscore() {
+		if (playerName.length() > 0) {
+			if (highscores == null) {
+				readInHighscores();
+			}
+			
+			if (highscores.get(game.difficulty) == null) {
+				highscores.put(game.difficulty, new ArrayList<TTHighscore>(10));
+			}
+			
+			ArrayList<TTHighscore> list = highscores.get(game.difficulty);
+			int insertAt = list.size();
+			for (int i = insertAt - 1; i >= 0; i--) {
+				if (game.getScore() > list.get(i).score) {
+					insertAt = i;
+				}
+			}
+			list.add(insertAt, new TTHighscore(playerName, game.getScore()));
+			
+			saveHighscores();
+			toStart();
+		}
 	}
 	
 	public void wordChanged() {
@@ -196,23 +231,34 @@ public class TTController {
 				letterPressed = ' ';
 				break;
 			case 8:
-				game.backspace();
-				updateLabels();
-				return;
+				if (game != null && game.running) {
+					game.backspace();
+					updateLabels();
+					return;
+					
+				} else if (gameOverPanel != null && gameOverPanel.isVisible()) {
+					if (playerName.length() >= 1) {
+						playerName = playerName.substring(0, playerName.length() - 1);
+						gameOverPanel.setName(playerName);
+					}
+					return;
+				}
 			}
 			
-			if (game != null) {
-				if (game.running) {
+			if (game != null && game.running) {
+				
+				if (game.matchLetter(letterPressed)) {
 					
-					if (game.matchLetter(letterPressed)) {
-						
-						
-					} else {
-						playSound("res/sounds/incorrect.aiff");
-					}
-					
-					updateLabels();
-					
+				} else {
+					playSound("res/sounds/incorrect.aiff");
+				}
+				
+				updateLabels(); 
+				
+			} else if (gameOverPanel != null && gameOverPanel.isVisible()) {
+				if (playerName.length() < 3) {
+					playerName = playerName + letterPressed;
+					gameOverPanel.setName(playerName);
 				}
 			}
 			
@@ -234,6 +280,72 @@ public class TTController {
 	    } catch (LineUnavailableException e) {
 	         e.printStackTrace();
 	    }
+	}
+	
+	private void readInHighscores() {
+		if (highscores == null) {
+	    	highscores = new HashMap<Integer, ArrayList<TTHighscore>>(4);
+	    }
+		
+		try (BufferedReader br = new BufferedReader(new FileReader("scores.txt"))) {
+		    String line;
+		    int level = 0;
+		    
+		    while ((line = br.readLine()) != null) {
+		    	
+		    	System.out.println(line);
+		    	
+		    	if (line.startsWith("level")) {
+		    		level = Integer.parseInt(line.substring(line.length() - 1));
+		    		if (highscores.get(level) == null) {
+		    			highscores.put(level, new ArrayList<TTHighscore>(10));
+		    		}
+		    		continue;
+		    	}
+		    	
+		    	int separatorIndex = line.indexOf(' ');
+		    	
+		    	if (separatorIndex != -1) {
+		    		TTHighscore score = new TTHighscore(line.substring(0, separatorIndex), Double.parseDouble(line.substring(separatorIndex)));
+		    		highscores.get(level).add(score);
+		    	}
+		    	
+		    	System.out.println(highscores);
+		    	
+		    }
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			try {
+				PrintWriter writer = new PrintWriter("scores.txt", "UTF-8");
+				writer.close();
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			} catch (UnsupportedEncodingException e1) {
+				e1.printStackTrace();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void saveHighscores() {
+		if (highscores != null) {
+			try {
+				PrintWriter writer = new PrintWriter("scores.txt", "UTF-8");
+				for (Integer k : highscores.keySet()) {
+					writer.println("level" + k);
+					for (TTHighscore s : highscores.get(k)) {
+						writer.println(s.name + " " + s.score);
+					}
+				}
+				writer.close();
+				
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

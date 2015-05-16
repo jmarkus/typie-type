@@ -19,6 +19,7 @@ public class TTGame {
 	int correctLetters;
 	int correctWords;
 	Thread gameOverThread;
+	double score;
 	
 	public TTController controller;
 	public String mode;
@@ -185,6 +186,7 @@ public class TTGame {
 	
 	public void endGame(boolean byUser) {
 		running = false;
+		score = getLPM();
 		if (gameOverThread != null) {
 			gameOverThread.interrupt();
 		}
@@ -205,6 +207,13 @@ public class TTGame {
 	
 	public int getWordCount() {
 		return correctWords;
+	}
+	
+	public double getScore() {
+		if (!running) {
+			return score;
+		}
+		return 0;
 	}
 	
 

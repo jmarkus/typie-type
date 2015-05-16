@@ -1,2 +1,26 @@
 
 *.class
+
+bin/levels/level0.txt
+
+bin/levels/level1.txt
+
+bin/levels/level2.txt
+
+bin/sounds/ding.wav
+
+bin/sounds/incorrect.aiff
+
+bin/TTController.class
+
+bin/TTController.class
+
+bin/TTController$MyKeyListener.class
+
+bin/TTGame.class
+
+bin/TTStartPanel$1.class
+
+bin/TTStartPanel.class
+
+scores.txt
