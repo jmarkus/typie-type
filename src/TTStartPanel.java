@@ -92,7 +92,7 @@ public class TTStartPanel extends JPanel {
         highscoresButton.setBounds(panelSize.width - size.width - 10, panelSize.height - size.height, size.width, size.height);
         add(highscoresButton);
         
-        easyButton = new JButton("Inte svårt");
+        easyButton = new JButton(TTController.DIFFICULTIES[0]);
 		easyButton.addActionListener(new ActionListener() {
         	@Override
             public void actionPerformed(ActionEvent event) {
@@ -113,7 +113,7 @@ public class TTStartPanel extends JPanel {
         easyButton.setVisible(false);
         add(easyButton);
 		
-        mediumButton = new JButton("Lite svårt");
+        mediumButton = new JButton(TTController.DIFFICULTIES[1]);
         mediumButton.addActionListener(new ActionListener() {
         	@Override
             public void actionPerformed(ActionEvent event) {
@@ -134,7 +134,7 @@ public class TTStartPanel extends JPanel {
         mediumButton.setVisible(false);
         add(mediumButton);
         
-        hardButton = new JButton("Ganska svårt");
+        hardButton = new JButton(TTController.DIFFICULTIES[2]);
         hardButton.addActionListener(new ActionListener() {
         	@Override
             public void actionPerformed(ActionEvent event) {
@@ -155,7 +155,7 @@ public class TTStartPanel extends JPanel {
         hardButton.setVisible(false);
         add(hardButton);
         
-        extremeButton = new JButton("Väldigt svårt");
+        extremeButton = new JButton(TTController.DIFFICULTIES[3]);
         extremeButton.addActionListener(new ActionListener() {
         	@Override
             public void actionPerformed(ActionEvent event) {
@@ -176,7 +176,7 @@ public class TTStartPanel extends JPanel {
         extremeButton.setVisible(false);
         add(extremeButton);
         
-        backButton = new JButton("Tillbaka");
+        backButton = new JButton("< Tillbaka");
         backButton.addActionListener(new ActionListener() {
         	@Override
             public void actionPerformed(ActionEvent event) {

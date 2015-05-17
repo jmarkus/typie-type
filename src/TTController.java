@@ -1,5 +1,6 @@
 
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
@@ -129,9 +130,22 @@ public class TTController {
 		LPMThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
+				boolean alertedUser = false;
 				while (game != null && game.running) {
 		    		gamePanel.setCurrentLPMLabel(game.getLPM());
 		    		gamePanel.setTimeLeftLabel((int)game.getTimeLeftMillis() / 1000 + 1);
+		    		
+		    		if ((int)game.getLPM() == 0 && game.getEllapsedTimeMillis() > 5000 && !alertedUser) {
+		    			
+						EventQueue.invokeLater(new Runnable() {
+							@Override
+							public void run() {
+								gamePanel.alertUser();
+							}
+						});
+		    			alertedUser = true;
+		    		}
+		    		
 		    		try {
 						Thread.sleep(50);
 					} catch (InterruptedException e) {

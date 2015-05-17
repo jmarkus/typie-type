@@ -47,7 +47,7 @@ public class TTGameOverPanel extends JPanel {
 		scoreLabel.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2, size.width, size.height);
 		add(scoreLabel);
 		
-		writeNameLabel = new JLabel("Skriv ditt namn här: BOB");
+		writeNameLabel = new JLabel("Försök skriva ditt namn här: BOB");
 		writeNameLabel.setFont(new java.awt.Font("Impact", 0, 50));
 		size  = writeNameLabel.getPreferredSize();
 		writeNameLabel.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 + 100, size.width, size.height);
@@ -87,7 +87,7 @@ public class TTGameOverPanel extends JPanel {
 	}
 	
 	public void setName(String name) {
-		writeNameLabel.setText("<html>Skriv dina igenkänningstecken namn här: <span color=\"green\">" + name + "</span></html>");
+		writeNameLabel.setText("<html>Försök skriva ditt namn här: <span color=\"green\">" + name + "</span></html>");
 		Dimension size  = writeNameLabel.getPreferredSize();
 		writeNameLabel.setBounds(writeNameLabel.getX(), writeNameLabel.getY(), size.width, writeNameLabel.getHeight());
 	}

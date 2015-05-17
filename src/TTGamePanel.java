@@ -211,6 +211,16 @@ public class TTGamePanel extends JPanel {
 		currentLPMLabel.setBounds(panelSize.width - size.width - 10, panelSize.height - size.height, size.width, size.height);
 	}
 	
+	public void alertUser() {
+		JLabel alert = new JLabel("TIPS! Kopiera ordet ovan till rutan här under så snabbt du kan : )");
+		alert.setFont(new java.awt.Font("Impact", 0, 30));
+		Dimension panelSize = getParent().getSize();
+		Dimension size  = alert.getPreferredSize();
+		alert.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 + 30, size.width, size.height);
+		add(alert);
+		repaint();
+	}
+	
 	
 	
 }
