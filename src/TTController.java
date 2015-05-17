@@ -172,10 +172,11 @@ public class TTController {
 		
 		game = new TTGame("practice", level);
 		game.controller = this;
-		game.startGame(0);
+		game.startGame(level);
 		
 		updateLabels();
 		gamePanel.setLabelLayout("practice", level);
+		gamePanel.setCurrentWordCount(game.getWordCount());
 	}
 	
 	public void endGame(boolean byUser) {

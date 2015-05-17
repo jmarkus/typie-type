@@ -148,7 +148,14 @@ public class TTGamePanel extends JPanel {
 	}
 	
 	public void setCurrentWordCount(int count) {
-		currentWordCountLabel.setText(String.format("Antal ord: %d", count));
+		if (difficulty <= 1) {
+			currentWordCountLabel.setText(String.format("Antal ord: %d", count));
+		} else if (difficulty == 2 ){
+			currentWordCountLabel.setText(String.format("Antal ord eller fraser: %d", count));
+		} else {
+			currentWordCountLabel.setText(String.format("Antal fraser: %d", count));
+		}
+		
 		Dimension size  = currentWordCountLabel.getPreferredSize();
 		Dimension panelSize = getParent().getSize();
 		currentWordCountLabel.setBounds(10, panelSize.height - size.height, size.width, size.height);
@@ -162,15 +169,17 @@ public class TTGamePanel extends JPanel {
 			timeLeftLabel.setVisible(true);
 			currentLPMLabel.setVisible(true);
 			currentWordCountLabel.setVisible(false);
-			if (difficulty >= 3) {
-				currentTypedWordLabel.setVisible(false);
-			} else {
-				currentTypedWordLabel.setVisible(true);
-			}
+			
 		} else if (mode == "practice") {
 			timeLeftLabel.setVisible(false);
 			currentLPMLabel.setVisible(false);
 			currentWordCountLabel.setVisible(true);
+			currentTypedWordLabel.setVisible(true);
+		}
+		
+		if (difficulty >= 3) {
+			currentTypedWordLabel.setVisible(false);
+		} else {
 			currentTypedWordLabel.setVisible(true);
 		}
 		
@@ -212,7 +221,7 @@ public class TTGamePanel extends JPanel {
 	}
 	
 	public void alertUser() {
-		JLabel alert = new JLabel("TIPS! Kopiera ordet ovan till rutan här under så snabbt du kan : )");
+		JLabel alert = new JLabel("TIPS! Kopiera ordet eller frasen ovan till rutan här under så snabbt du kan : )");
 		alert.setFont(new java.awt.Font("Impact", 0, 30));
 		Dimension panelSize = getParent().getSize();
 		Dimension size  = alert.getPreferredSize();
