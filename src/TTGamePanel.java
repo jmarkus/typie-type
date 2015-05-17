@@ -26,6 +26,7 @@ public class TTGamePanel extends JPanel {
 	JLabel currentLPMLabel;
 	JLabel timeLeftLabel;
 	JLabel currentWordCountLabel;
+	JLabel difficultyLabel;
 	
 	String mode;
 	int difficulty;
@@ -74,6 +75,12 @@ public class TTGamePanel extends JPanel {
 		size  = currentWordCountLabel.getPreferredSize();
 		currentWordCountLabel.setBounds(10, panelSize.height - size.height, size.width, size.height);
 		add(currentWordCountLabel);
+		
+		difficultyLabel = new JLabel("Svårighetsgrad:");
+		difficultyLabel.setFont(new java.awt.Font("Impact", 0, 30));
+		size  = difficultyLabel.getPreferredSize();
+		difficultyLabel.setBounds(panelSize.width - size.width - 10, 0, size.width, size.height);
+		add(difficultyLabel);
 		
 		
 		JButton backButton = new JButton("< Tillbaka till menyn");
@@ -166,6 +173,11 @@ public class TTGamePanel extends JPanel {
 			currentWordCountLabel.setVisible(true);
 			currentTypedWordLabel.setVisible(true);
 		}
+		
+		difficultyLabel.setText("Svårighetsgrad: " + TTController.DIFFICULTIES[difficulty]);
+		Dimension size  = difficultyLabel.getPreferredSize();
+		Dimension panelSize = getParent().getSize();
+		difficultyLabel.setBounds(panelSize.width - size.width - 10, 0, size.width, size.height);
 		
 		updateLabelLayout();
 	}

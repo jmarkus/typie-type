@@ -24,6 +24,8 @@ public class TTController {
 	static final int WINDOW_WIDTH = 1200;
 	static final int WINDOW_HEIGHT = 800;
 	
+	static final String[] DIFFICULTIES = {"Inte svårt", "Lite svårt", "Ganska svårt", "Väldigt svårt"};
+	
 	
 	public JFrame mainFrame;
 	
@@ -117,7 +119,7 @@ public class TTController {
 		
 		game = new TTGame("game", level);
 		game.controller = this;
-		game.startGame(5);
+		game.startGame(30);
 		
 		updateLabels();
 		gamePanel.setLabelLayout("game", level);
@@ -179,6 +181,7 @@ public class TTController {
 			
 			gameOverPanel.setScoreLabel(game.getWordCount(), game.getScore());
 			gameOverPanel.setName(playerName);
+			gameOverPanel.setDifficultyLabel(DIFFICULTIES[game.difficulty]);
 		}
 		
 	}

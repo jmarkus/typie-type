@@ -57,25 +57,7 @@ public class TTHighscoresPanel extends JPanel {
 		for (Integer i : highscores.keySet()) {
 			int colXCenter = 40 + ((panelSize.width - 80) / highscores.size()) / 2 + nr * (panelSize.width - 80) / highscores.size();
 			
-			JLabel currentLevel = new JLabel();
-			
-			switch (i) {
-			case 0:
-				currentLevel.setText("Inte svårt");
-				break;
-			case 1:
-				currentLevel.setText("Lite svårt");
-				break;
-			case 2:
-				currentLevel.setText("Ganska svårt");
-				break;
-			case 3:
-				currentLevel.setText("Väldigt svårt");
-				break;
-			default:
-				currentLevel.setText("Okänt svårt");
-				break;
-			}
+			JLabel currentLevel = new JLabel(TTController.DIFFICULTIES[i]);
 			
 			currentLevel.setFont(new java.awt.Font("Impact", 0, 40));
 			Dimension size  = currentLevel.getPreferredSize();

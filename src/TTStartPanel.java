@@ -18,6 +18,7 @@ public class TTStartPanel extends JPanel {
 	JButton mediumButton;
 	JButton hardButton;
 	JButton extremeButton;
+	JButton backButton;
 	
 	String mode;
 	
@@ -175,6 +176,22 @@ public class TTStartPanel extends JPanel {
         extremeButton.setVisible(false);
         add(extremeButton);
         
+        backButton = new JButton("Tillbaka");
+        backButton.addActionListener(new ActionListener() {
+        	@Override
+            public void actionPerformed(ActionEvent event) {
+        		toggleButtons();
+            }
+        });
+        backButton.setFont(new java.awt.Font("Impact", 0, 30));
+        backButton.setOpaque(false);
+        backButton.setContentAreaFilled(false);
+        backButton.setBorderPainted(false);
+        size  = backButton.getPreferredSize();
+        backButton.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 + 270, size.width, size.height);
+        backButton.setVisible(false);
+        add(backButton);
+        
         
 	}
 	
@@ -185,6 +202,7 @@ public class TTStartPanel extends JPanel {
 			mediumButton.setVisible(false);
 			hardButton.setVisible(false);
 			extremeButton.setVisible(false);
+			backButton.setVisible(false);
 			
 			gameButton.setVisible(true);
     		practiceButton.setVisible(true);
@@ -193,6 +211,7 @@ public class TTStartPanel extends JPanel {
 			mediumButton.setVisible(true);
 			hardButton.setVisible(true);
 			extremeButton.setVisible(true);
+			backButton.setVisible(true);
 			
 			gameButton.setVisible(false);
     		practiceButton.setVisible(false);

@@ -21,6 +21,7 @@ public class TTGameOverPanel extends JPanel {
 	JLabel gameOverLabel;
 	JLabel scoreLabel;
 	JLabel writeNameLabel;
+	JLabel difficultyLabel;
 	
 	
 	public TTGameOverPanel() {
@@ -52,6 +53,12 @@ public class TTGameOverPanel extends JPanel {
 		writeNameLabel.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 + 100, size.width, size.height);
 		add(writeNameLabel);
 		
+		difficultyLabel = new JLabel("Svårighetsgrad:");
+		difficultyLabel.setFont(new java.awt.Font("Impact", 0, 30));
+		size  = difficultyLabel.getPreferredSize();
+		difficultyLabel.setBounds(panelSize.width - size.width - 10, 0, size.width, size.height);
+		add(difficultyLabel);
+		
 		
 		JButton toStartButton = new JButton("OK");
 		toStartButton.addActionListener(new ActionListener() {
@@ -65,7 +72,7 @@ public class TTGameOverPanel extends JPanel {
 		toStartButton.setContentAreaFilled(false);
 		toStartButton.setBorderPainted(false);
 		size  = toStartButton.getPreferredSize();
-		toStartButton.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 + 200, size.width, size.height);
+		toStartButton.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 + 300, size.width, size.height);
         add(toStartButton);
         
 	}
@@ -83,6 +90,13 @@ public class TTGameOverPanel extends JPanel {
 		writeNameLabel.setText("Skriv ditt namn här: " + name);
 		Dimension size  = writeNameLabel.getPreferredSize();
 		writeNameLabel.setBounds(writeNameLabel.getX(), writeNameLabel.getY(), size.width, writeNameLabel.getHeight());
+	}
+	
+	public void setDifficultyLabel(String difficulty) {
+		difficultyLabel.setText("Svårighetsgrad: " + difficulty);
+		Dimension size  = difficultyLabel.getPreferredSize();
+		Dimension panelSize = getParent().getSize();
+		difficultyLabel.setBounds(panelSize.width - size.width - 10, 0, size.width, size.height);
 	}
 	
 	
