@@ -13,6 +13,7 @@ public class TTStartPanel extends JPanel {
 	
 	JButton gameButton;
 	JButton practiceButton;
+	JButton highscoresButton;
 	JButton easyButton;
 	JButton mediumButton;
 	JButton hardButton;
@@ -74,6 +75,21 @@ public class TTStartPanel extends JPanel {
         size  = practiceButton.getPreferredSize();
         practiceButton.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 + 105, size.width, size.height);
         add(practiceButton);
+        
+        highscoresButton = new JButton("Topplista");
+        highscoresButton.addActionListener(new ActionListener() {
+        	@Override
+            public void actionPerformed(ActionEvent event) {
+        		controller.showHighscores();
+            }
+        });
+        highscoresButton.setFont(new java.awt.Font("Impact", 0, 30));
+        highscoresButton.setOpaque(false);
+        highscoresButton.setContentAreaFilled(false);
+        highscoresButton.setBorderPainted(false);
+        size  = highscoresButton.getPreferredSize();
+        highscoresButton.setBounds(panelSize.width - size.width - 10, panelSize.height - size.height, size.width, size.height);
+        add(highscoresButton);
         
         easyButton = new JButton("Inte svårt");
 		easyButton.addActionListener(new ActionListener() {

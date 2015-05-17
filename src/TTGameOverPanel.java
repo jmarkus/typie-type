@@ -60,6 +60,10 @@ public class TTGameOverPanel extends JPanel {
                 controller.submitHighscore();
             }
         });
+		toStartButton.setFont(new java.awt.Font("Impact", 0, 30));
+		toStartButton.setOpaque(false);
+		toStartButton.setContentAreaFilled(false);
+		toStartButton.setBorderPainted(false);
 		size  = toStartButton.getPreferredSize();
 		toStartButton.setBounds(panelSize.width / 2 -  size.width / 2, panelSize.height / 2 - size.height/ 2 + 200, size.width, size.height);
         add(toStartButton);

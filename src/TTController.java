@@ -30,8 +30,11 @@ public class TTController {
 	TTStartPanel startPanel;
 	TTGamePanel gamePanel;
 	TTGameOverPanel gameOverPanel;
+	TTHighscoresPanel highscoresPanel;
 	TTGame game;
+	
 	String playerName;
+	TTHighscore latestScore;
 	
 	Thread LPMThread;
 	
@@ -73,6 +76,10 @@ public class TTController {
 			gameOverPanel.setVisible(false);
 		}
 		
+		if (highscoresPanel != null) {
+			highscoresPanel.setVisible(false);
+		}
+		
 		if (startPanel == null) {
 			startPanel = new TTStartPanel();
 			startPanel.controller = this;
@@ -110,7 +117,7 @@ public class TTController {
 		
 		game = new TTGame("game", level);
 		game.controller = this;
-		game.startGame(30);
+		game.startGame(5);
 		
 		updateLabels();
 		gamePanel.setLabelLayout("game", level);
@@ -165,12 +172,12 @@ public class TTController {
 				gameOverPanel.controller = this;
 				mainFrame.add(gameOverPanel);
 				gameOverPanel.setup();
+				playerName = "";
 			} else {
 				gameOverPanel.setVisible(true);
 			}
 			
 			gameOverPanel.setScoreLabel(game.getWordCount(), game.getScore());
-			playerName = "";
 			gameOverPanel.setName(playerName);
 		}
 		
@@ -179,6 +186,30 @@ public class TTController {
 	public void backToStart() {
 		game.endGame(true);
 		toStart();
+	}
+	
+	public void showHighscores() {
+		startPanel.setVisible(false);
+			
+		if (gameOverPanel != null) {
+			gameOverPanel.setVisible(false);
+		}
+			
+		
+		if (highscoresPanel == null) {
+			highscoresPanel = new TTHighscoresPanel();
+			highscoresPanel.controller = this;
+			mainFrame.add(highscoresPanel);
+		} else {
+			highscoresPanel.setVisible(true);
+		}
+		
+		if (highscores == null) {
+			readInHighscores();
+		}
+		
+		highscoresPanel.printHighscores(highscores, latestScore);
+		latestScore = null;
 	}
 	
 	public void submitHighscore() {
@@ -198,10 +229,13 @@ public class TTController {
 					insertAt = i;
 				}
 			}
-			list.add(insertAt, new TTHighscore(playerName, game.getScore()));
+			latestScore = new TTHighscore(playerName, game.getScore());
+			list.add(insertAt, latestScore);
 			
 			saveHighscores();
-			toStart();
+			showHighscores();
+		} else {
+			mainFrame.requestFocusInWindow();
 		}
 	}
 	
@@ -314,7 +348,6 @@ public class TTController {
 		    	
 		    }
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 			try {
 				PrintWriter writer = new PrintWriter("scores.txt", "UTF-8");
 				writer.close();
