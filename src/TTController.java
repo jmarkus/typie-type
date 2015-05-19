@@ -120,7 +120,7 @@ public class TTController {
 		
 		game = new TTGame("game", level);
 		game.controller = this;
-		game.startGame(30);
+		game.startGame(60);
 		
 		updateLabels();
 		gamePanel.setLabelLayout("game", level);
