@@ -78,7 +78,7 @@ public class TTGameOverPanel extends JPanel {
 	}
 	
 	public void setScoreLabel(int nWords, double score) {
-		scoreLabel.setText(String.format("<html>Du sekrev %d ord eller uttryck och fick <span color=\"green\">%.1f</span> poäng</html>", nWords, score));
+		scoreLabel.setText(String.format("<html>Du skrev %d ord eller uttryck och fick <span color=\"green\">%.1f</span> poäng</html>", nWords, score));
 		scoreLabel.setFont(new java.awt.Font("Impact", 0, 50));
 		Dimension size  = scoreLabel.getPreferredSize();
 		Dimension panelSize = getParent().getSize();

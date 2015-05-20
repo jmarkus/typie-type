@@ -22,8 +22,8 @@ import javax.swing.*;
 
 public class TTController {
 	
-	static final int WINDOW_WIDTH = 1200;
-	static final int WINDOW_HEIGHT = 800;
+	static final int WINDOW_WIDTH = 1100;
+	static final int WINDOW_HEIGHT = 700;
 	
 	static final String[] DIFFICULTIES = {"Inte svårt", "Lite svårt", "Ganska svårt", "Väldigt svårt"};
 	
