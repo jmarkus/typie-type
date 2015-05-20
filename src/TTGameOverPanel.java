@@ -6,17 +6,17 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
- * 
+ * View class handling the screen shown when the game is over.
  */
 
 /**
- * @author Jonatan
+ * @author Jonatan Markusson
  *
  */
 @SuppressWarnings("serial")
 public class TTGameOverPanel extends JPanel {
 	
-	public TTController controller;
+	public TTController controller; // pointer to controller object
 	
 	JLabel gameOverLabel;
 	JLabel scoreLabel;
@@ -28,9 +28,12 @@ public class TTGameOverPanel extends JPanel {
 		setBackground(Color.WHITE);
 	}
 	
+	/**
+	 * Initializes all graphical elements with placeholder text. Must be called after the object has been added to a frame.
+	 */
 	public void setup() {
 		
-		setLayout(null);
+		setLayout(null); // absolute positioning
 		
 		Dimension panelSize = getParent().getSize();
 		Dimension size;
@@ -77,6 +80,11 @@ public class TTGameOverPanel extends JPanel {
         
 	}
 	
+	/**
+	 * Sets the label showing the user's score. 
+	 * @param nWords The number of correct words the user entered.
+	 * @param score The user's score
+	 */
 	public void setScoreLabel(int nWords, double score) {
 		scoreLabel.setText(String.format("<html>Du skrev %d ord eller uttryck och fick <span color=\"green\">%.1f</span> poäng</html>", nWords, score));
 		scoreLabel.setFont(new java.awt.Font("Impact", 0, 50));
@@ -86,12 +94,19 @@ public class TTGameOverPanel extends JPanel {
 		add(scoreLabel);
 	}
 	
+	/**
+	 * Sets the label showing the name that the user has currently typed in.
+	 */
 	public void setName(String name) {
 		writeNameLabel.setText("<html>Försök skriva ditt namn här: <span color=\"green\">" + name + "</span></html>");
 		Dimension size  = writeNameLabel.getPreferredSize();
 		writeNameLabel.setBounds(writeNameLabel.getX(), writeNameLabel.getY(), size.width, writeNameLabel.getHeight());
 	}
 	
+	/**
+	 * Sets the label showing the difficulty of the finished game.
+	 * @param difficulty The difficulty of the finished game
+	 */
 	public void setDifficultyLabel(String difficulty) {
 		difficultyLabel.setText("Svårighetsgrad: " + difficulty);
 		Dimension size  = difficultyLabel.getPreferredSize();

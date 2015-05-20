@@ -1,6 +1,13 @@
-
 import java.awt.EventQueue;
 
+/**
+ * Launch point of the application.
+ */
+
+/**
+ * @author Jonatan Markusson
+ *
+ */
 public class TTMain {
 	
 

@@ -1,4 +1,3 @@
-
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.KeyAdapter;
@@ -20,13 +19,19 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 
 
+/**
+ * 
+ * 
+ * @author Jonatan Markusson
+ *
+ */
 public class TTController {
+	
 	
 	static final int WINDOW_WIDTH = 1100;
 	static final int WINDOW_HEIGHT = 700;
 	
 	static final String[] DIFFICULTIES = {"Inte svårt", "Lite svårt", "Ganska svårt", "Väldigt svårt"};
-	
 	
 	public JFrame mainFrame;
 	

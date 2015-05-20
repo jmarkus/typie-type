@@ -5,11 +5,19 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+/**
+ * View class handling the start screen and main menu of the application.
+ */
+
+/**
+ * @author Jonatan Markusson
+ *
+ */
 @SuppressWarnings("serial")
 public class TTStartPanel extends JPanel {
 	
 	
-	public TTController controller;
+	public TTController controller; // pointer to controller object
 	
 	JButton gameButton;
 	JButton practiceButton;
@@ -27,9 +35,12 @@ public class TTStartPanel extends JPanel {
 		setBackground(Color.WHITE);
 	}
 	
+	/**
+	 * Initializes all graphical elements. Must be called after the object has been added to a frame.
+	 */
 	public void setup() {
 		
-		setLayout(null);
+		setLayout(null); // absolute positioning
 		
 		Dimension panelSize = getParent().getSize();
 		Dimension size;
@@ -195,6 +206,9 @@ public class TTStartPanel extends JPanel {
         
 	}
 	
+	/**
+	 * Toggle whether the main menu buttons or the difficulty buttons should be visible
+	 */
 	private void toggleButtons() {
 		
 		if (easyButton.isVisible()) {

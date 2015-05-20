@@ -1,4 +1,9 @@
-
+/**
+ * Class representing a highscore with associated name and score
+ * 
+ * @author Jonatan Markusson
+ *
+ */
 public class TTHighscore {
 
 	public String name;

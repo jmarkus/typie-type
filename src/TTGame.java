@@ -7,9 +7,13 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
+/**
+ * 
+ * 
+ * @author Jonatan Markusson
+ *
+ */
 public class TTGame {
-	
-	
 	
 	
 	ArrayList<String> words;

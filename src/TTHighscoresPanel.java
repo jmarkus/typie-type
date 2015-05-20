@@ -9,21 +9,31 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * View class handling the display of the highscore lists.
+ */
 
+/**
+ * @author Jonatan Markusson
+ *
+ */
 @SuppressWarnings("serial")
 public class TTHighscoresPanel extends JPanel {
 	
 	
-	public TTController controller;
+	public TTController controller; // pointer to controller object
 	
 	
 	public TTHighscoresPanel() {
 		setBackground(Color.WHITE);
 	}
 	
+	/**
+	 * Initializes all graphical elements with placeholder text. Must be called after the object has been added to a frame.
+	 */
 	public void setup() {
 		
-		setLayout(null);
+		setLayout(null); // absolute positioning
 		
 		Dimension panelSize = getParent().getSize();
 		Dimension size;
@@ -45,6 +55,11 @@ public class TTHighscoresPanel extends JPanel {
 		
 	}
 	
+	/**
+	 * Prints the 10 best highscores in each difficulty from the highscores map. If latestScore != null, mark this as green.
+	 * @param highscores A map containing the highscores to be displayed
+	 * @param latestScore A score to mark with green color, if null nothing is changed
+	 */
 	public void printHighscores(HashMap<Integer, ArrayList<TTHighscore>> highscores, TTHighscore latestScore) {
 		
 		removeAll();
@@ -55,6 +70,8 @@ public class TTHighscoresPanel extends JPanel {
 		
 		int nr = 0;
 		for (Integer i : highscores.keySet()) {
+			
+			//calculate column center
 			int colXCenter = 40 + ((panelSize.width - 80) / highscores.size()) / 2 + nr * (panelSize.width - 80) / highscores.size();
 			
 			JLabel currentLevel = new JLabel(TTController.DIFFICULTIES[i]);
@@ -68,6 +85,8 @@ public class TTHighscoresPanel extends JPanel {
 				if (highscores.get(i).size() > j) {
 					
 					String currentString = String.format("%d. %s - %.1f", j + 1, highscores.get(i).get(j).name, highscores.get(i).get(j).score);
+					
+					// mark latestScore green
 					if (highscores.get(i).get(j) == latestScore) {
 						currentString = "<html><span color=\"green\">" + currentString + "</span></html>";
 					}
