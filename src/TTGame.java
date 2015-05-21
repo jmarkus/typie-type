@@ -8,7 +8,7 @@ import java.util.Random;
 
 
 /**
- * 
+ * Model class which handles the game logic.
  * 
  * @author Jonatan Markusson
  *
@@ -35,10 +35,16 @@ public class TTGame {
 	public boolean running;
 	
 	
+	/**
+	 * Create a new game object with the given mode and difficulty
+	 * @param mode The mode which the game should run
+	 * @param difficulty The difficulty of the game
+	 */
 	public TTGame(String mode, int difficulty) {
 		running = false;
 		words = new ArrayList<String>(100);
 		
+		// predefined word lists for all difficulties
 		switch (difficulty) {
 		case 0:
 			readInLevelFile(0);
@@ -63,6 +69,10 @@ public class TTGame {
 		this.difficulty = difficulty;
 	}
 	
+	/**
+	 * Helper method to read in words from the file given
+	 * @param level the level of words to be read in
+	 */
 	private void readInLevelFile(int level) {
 		
 		try (BufferedReader br = new BufferedReader(new FileReader(String.format("res/levels/level%d.txt", level)))) {
@@ -79,6 +89,9 @@ public class TTGame {
 		}
 	}
 	
+	/**
+	 * Helper method to change the current word of the game
+	 */
 	private void changeCurrentWord() {
 		String oldWord = currentWord;
 		while (oldWord == currentWord) { // not the same word again
@@ -87,13 +100,19 @@ public class TTGame {
 		currentTypedWord = "";
 		currentIndex = 0;
 		currentCorrectIndex = 0;
-		System.out.println("New word: " + currentWord);
+		//System.out.println("New word: " + currentWord);
 	}
 	
+	/**
+	 * Try to match a letter against the current word
+	 * @param letter The letter to be matched
+	 * @return True if letter is the next unmatched letter in the current word
+	 */
 	public boolean matchLetter(char letter) {
 		
 		if (currentIndex < currentWord.length()) {
 			
+			// special case if difficulty is 0, currentIndex and correctIndex must always have the same value
 			if (difficulty == 0) {
 				boolean match = currentWord.charAt(currentIndex) == letter;
 				if (match) {
@@ -138,6 +157,9 @@ public class TTGame {
 		return false;
 	}
 	
+	/**
+	 * Called by controller when backspace is typed, removes one letter from the current typed word
+	 */
 	public void backspace() {
 		if (currentTypedWord.length() > 0) {
 			currentTypedWord = currentTypedWord.substring(0, currentTypedWord.length() - 1);
@@ -150,6 +172,10 @@ public class TTGame {
 		}
 	}
 	
+	/**
+	 * Starts the game .
+	 * @param time The time the game should run, if in game mode
+	 */
 	public void startGame(int time) {
 		currentWord = "";
 		currentTypedWord = "";
@@ -188,6 +214,10 @@ public class TTGame {
 		
 	}
 	
+	/**
+	 * Terminates the game and notifies the controller
+	 * @param byUser True if the game was terminated by the user, otherwise false
+	 */
 	public void endGame(boolean byUser) {
 		running = false;
 		score = getLPM();
@@ -197,22 +227,41 @@ public class TTGame {
 		controller.endGame(byUser);
 	}
 	
-	public long getEllapsedTimeMillis() {
+	/**
+	 * Return the time the current game has been running in milliseconds
+	 * @return The time the game has elapsed in milliseconds
+	 */
+	public long getElapsedTimeMillis() {
 		return System.currentTimeMillis() - startTime;
 	}
 	
+	/**
+	 * Return the accumulated letter per minute rate of the game
+	 * @return The accumulated letter per minute rate of the game
+	 */
 	public double getLPM() {
-		return correctLetters / (getEllapsedTimeMillis() / 60000.0);
+		return correctLetters / (getElapsedTimeMillis() / 60000.0);
 	}
-	
+	/**
+	 * Return the time left of the game
+	 * @return Time left of the game
+	 */
 	public long getTimeLeftMillis() {
-		return gameTime - getEllapsedTimeMillis();
+		return gameTime - getElapsedTimeMillis();
 	}
 	
+	/**
+	 * Return the number of words correctly entered in the current game
+	 * @return The number of words correctly entered
+	 */
 	public int getWordCount() {
 		return correctWords;
 	}
 	
+	/**
+	 * Return the score of the game.
+	 * @return The score of the game
+	 */
 	public double getScore() {
 		if (!running) {
 			return score;

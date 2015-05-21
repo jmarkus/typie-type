@@ -20,7 +20,7 @@ import javax.swing.*;
 
 
 /**
- * 
+ * Controller class managing view and model synchronization.
  * 
  * @author Jonatan Markusson
  *
@@ -53,6 +53,9 @@ public class TTController {
 		setupGUI();
 	}
 	
+	/**
+	 * Initializes the main frame
+	 */
 	private void setupGUI() {
 		mainFrame = new JFrame();
 		mainFrame.setTitle("TypieType¡");
@@ -70,6 +73,9 @@ public class TTController {
 		toStart();
 	}
 	
+	/**
+	 * Transition to the start screen/main menu
+	 */
 	public void toStart() {
 		if (game != null) {
 			game.controller = null;
@@ -99,18 +105,25 @@ public class TTController {
 		
 	}
 	
+	/**
+	 * Update the game view labels
+	 */
 	private void updateLabels() {
 		if (game.mode == "practice") {
 			gamePanel.setCurrentWordCount(game.getWordCount());
 		}
 		
 		gamePanel.setCurrentWordLabel(game.currentWord, game.currentCorrectIndex);
+		
 		if (game.difficulty <= 2) {
 			gamePanel.setCurrentTypedWordLabel(game.currentTypedWord, game.currentIndex, game.currentCorrectIndex);
 		}
 	}
 	
-	
+	/**
+	 * Prepare and start a normal game with the given difficulty
+	 * @param level The difficulty to be prepared
+	 */
 	public void startGame(int level) {
 		startPanel.setVisible(false);
 		
@@ -140,7 +153,8 @@ public class TTController {
 		    		gamePanel.setCurrentLPMLabel(game.getLPM());
 		    		gamePanel.setTimeLeftLabel((int)game.getTimeLeftMillis() / 1000 + 1);
 		    		
-		    		if ((int)game.getLPM() == 0 && game.getEllapsedTimeMillis() > 5000 && !alertedUser) {
+		    		// alert the user if no word has been typed within the first 5 seconds
+		    		if ((int)game.getLPM() == 0 && game.getElapsedTimeMillis() > 5000 && !alertedUser) {
 		    			
 						EventQueue.invokeLater(new Runnable() {
 							@Override
@@ -163,6 +177,10 @@ public class TTController {
 		LPMThread.start();
 	}
 	
+	/**
+	 * Prepare and start a practice game with the given difficulty
+	 * @param level The difficulty to be prepared
+	 */
 	public void startPracticeGame(int level) {
 		startPanel.setVisible(false);
 		
@@ -184,6 +202,10 @@ public class TTController {
 		gamePanel.setCurrentWordCount(game.getWordCount());
 	}
 	
+	/**
+	 * Terminate the game and, if byUser is false show the game over screen.
+	 * @param byUser True if the game was terminated by the user and the game over screen should not be shown, otherwise false
+	 */
 	public void endGame(boolean byUser) {
 		if (!byUser) {
 			System.out.println("Game Over");
@@ -206,11 +228,17 @@ public class TTController {
 		
 	}
 	
+	/**
+	 * Called by game view when user terminates the game
+	 */
 	public void backToStart() {
 		game.endGame(true);
 		toStart();
 	}
 	
+	/**
+	 * Prepare and show the highscore screen
+	 */
 	public void showHighscores() {
 		startPanel.setVisible(false);
 			
@@ -227,6 +255,7 @@ public class TTController {
 			highscoresPanel.setVisible(true);
 		}
 		
+		// lazy
 		if (highscores == null) {
 			readInHighscores();
 		}
@@ -235,6 +264,9 @@ public class TTController {
 		latestScore = null;
 	}
 	
+	/**
+	 * Insert the current score into the highscore list and save to file.
+	 */
 	public void submitHighscore() {
 		if (playerName.length() > 0) {
 			if (highscores == null) {
@@ -262,12 +294,18 @@ public class TTController {
 		}
 	}
 	
+	/**
+	 * Called by game object when it has changed the word.
+	 */
 	public void wordChanged() {
 		playSound("res/sounds/ding.wav");
 		updateLabels();
 		gamePanel.updateLabelLayout();
 	}
 	
+	/**
+	 * Helper class to handle key events
+	 */
 	private class MyKeyListener extends KeyAdapter {
 		@Override
 	    public void keyPressed(KeyEvent e) {
@@ -287,6 +325,8 @@ public class TTController {
 			case 32:
 				letterPressed = ' ';
 				break;
+				
+			// backspace
 			case 8:
 				if (game != null && game.running) {
 					game.backspace();
@@ -323,6 +363,10 @@ public class TTController {
 		}
 	}
 	
+	/**
+	 * Helper method which plays the sound at the given path
+	 * @param path The path of the sound to be played
+	 */
 	private void playSound(String path) {
 		File ding = new File(path);
 		
@@ -339,6 +383,9 @@ public class TTController {
 	    }
 	}
 	
+	/**
+	 * Helper method to read in highscores from file to the highscores field
+	 */
 	private void readInHighscores() {
 		if (highscores == null) {
 	    	highscores = new HashMap<Integer, ArrayList<TTHighscore>>(4);
@@ -372,6 +419,7 @@ public class TTController {
 		    }
 		} catch (FileNotFoundException e) {
 			try {
+				// if file does not exist, create it
 				PrintWriter writer = new PrintWriter("scores.txt", "UTF-8");
 				writer.close();
 			} catch (FileNotFoundException e1) {
@@ -384,6 +432,9 @@ public class TTController {
 		}
 	}
 	
+	/**
+	 * Write all scores from the field highscores to file
+	 */
 	private void saveHighscores() {
 		if (highscores != null) {
 			try {
