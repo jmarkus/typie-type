@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
  */
 
 /**
- * @author Jonatan Markusson
+ * @author Jonatan Markusson, Alexander Klingberg
  *
  */
 @SuppressWarnings("serial")

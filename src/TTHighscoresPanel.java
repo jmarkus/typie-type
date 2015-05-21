@@ -14,7 +14,7 @@ import javax.swing.JPanel;
  */
 
 /**
- * @author Jonatan Markusson
+ * @author Jonatan Markusson, Alexander Klingberg
  *
  */
 @SuppressWarnings("serial")

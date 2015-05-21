@@ -10,7 +10,7 @@ import javax.swing.*;
  */
 
 /**
- * @author Jonatan Markusson
+ * @author Jonatan Markusson, Alexander Klingberg
  *
  */
 @SuppressWarnings("serial")
