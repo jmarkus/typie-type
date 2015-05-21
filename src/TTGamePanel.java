@@ -152,6 +152,7 @@ public class TTGamePanel extends JPanel {
 				newLabelString = newLabelString.replaceAll("_", "");
 			}
 		}
+		
 		newLabelString = newLabelString.replaceAll(" ", "&nbsp;"); // always print white space
 		currentTypedWordLabel.setText(newLabelString);
 		

@@ -116,7 +116,7 @@ public class TTController {
 		gamePanel.setCurrentWordLabel(game.currentWord, game.currentCorrectIndex);
 		
 		if (game.difficulty <= 2) {
-			gamePanel.setCurrentTypedWordLabel(game.currentTypedWord, game.currentIndex, game.currentCorrectIndex);
+			gamePanel.setCurrentTypedWordLabel(game.currentTypedWord, game.currentCorrectIndex, game.currentIndex);
 		}
 	}
 	
